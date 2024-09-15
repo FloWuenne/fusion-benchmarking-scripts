@@ -1,0 +1,19 @@
+compute-envs:
+  - type: aws-batch
+    config-mode: forge
+    name: "${COMPUTE_NAME_PREFIX}_aws_fusion_nvme"
+    workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"
+    credentials: "your-aws-credentials"
+    region: "us-east-1"
+    work-dir: "s3://your-bucket"
+    wave: True
+    fusion-v2: True
+    fast-storage: True
+    no-ebs-auto-scale: True
+    provisioning-model: "SPOT"
+    instance-types: "c6id,m6id,r6id"
+    max-cpus: 1000
+    allow-buckets: "s3://bucket1,s3://bucket2,s3://bucket3"
+    labels: "fusionv2,benchmarking"
+    wait: "AVAILABLE"
+    overwrite: False

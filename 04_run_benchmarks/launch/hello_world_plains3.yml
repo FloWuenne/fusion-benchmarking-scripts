@@ -1,0 +1,5 @@
+launch:
+  - name: "nf-hello-world-plains3-$TIME"
+    workspace: "$SEQERA_ORGANIZATION_NAME/$SEQERA_WORKSPACE_NAME"
+    compute-env: "benchmark_aws_plain_s3"
+    pipeline: "nf-hello-world"

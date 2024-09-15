@@ -1,0 +1,19 @@
+compute-envs:
+  - type: aws-batch
+    config-mode: forge
+    name: "${COMPUTE_NAME_PREFIX}_aws_plain_s3"
+    workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"
+    credentials: "your-aws-credentials"
+    region: "us-east-1"
+    work-dir: "s3://your-bucket"
+    wave: False
+    fusion-v2: False
+    fast-storage: False
+    no-ebs-auto-scale: False
+    provisioning-model: "SPOT"
+    max-cpus: 1000
+    allow-buckets: "s3://bucket1,s3://bucket2,s3://bucket3"
+    labels: "plains3,benchmarking"
+    wait: "AVAILABLE"
+    overwrite: False
+    ebs-blocksize: 300

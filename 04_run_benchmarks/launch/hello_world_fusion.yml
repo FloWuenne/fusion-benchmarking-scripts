@@ -1,0 +1,5 @@
+launch:
+  - name: "nf-hello-world-fusion-$TIME"
+    workspace: "$SEQERA_ORGANIZATION_NAME/$SEQERA_WORKSPACE_NAME"
+    compute-env: "benchmark_aws_fusion_nvme"
+    pipeline: "nf-hello-world"
