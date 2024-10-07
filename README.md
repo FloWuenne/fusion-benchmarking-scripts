@@ -1,6 +1,6 @@
 ## Introduction
 
-The aim of this tutorial is to perform an standardized infrastructure benchmark in the Seqera Platform. At the end of this tutorial you will have ran a number of pipelines and collected performance metrics with which you can evaluate your infrastructure.
+The aim of this tutorial is to perform a standardized infrastructure benchmark in the Seqera Platform. At the end of this tutorial you will have ran a number of pipelines and collected performance metrics with which you can evaluate your infrastructure.
 
 ## Overview
 
@@ -16,7 +16,7 @@ This tutorial has been split up into 5 main components that you will need to com
 
 This tutorial requires users to be comfortable with the Linux command line and common shell operations, and to have a basic understanding of the Seqera Platform and its features.
 
-### seqerakit
+### Seqerakit
 
 We will perform this analysis in an automated manner using a Python package called [`seqerakit`](https://github.com/seqeralabs/seqera-kit), an infrastructure-as-code tool for configuring Seqera Platform resources.
 

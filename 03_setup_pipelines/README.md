@@ -4,13 +4,15 @@
 1. [Prerequisites](#prerequisites)
 2. [Overview](#overview)
 3. [Tutorial: Adding a pipeline to the Launchpad](#tutorial-adding-a-pipeline-to-the-launchpad)
-4. [Add your workflow to the Launchpad](#add-your-workflow-to-the-launchpad)
+   - [YAML format description](#yaml-format-description)
+   - [Dry run mode](#dry-run-mode)
+   - [Adding the pipeline](#adding-the-pipeline)
 
 ### Prerequisites
 
 - You have setup a Fusion V2 and plain S3 compute environment in the Seqera Platform in the [previous section](../02_setup_compute/README.md).
 - You have an S3 bucket for saving the workflow outputs.
-- For effective use of resource labels, you have setup Split Cost Allocation tracking in your AWS account and activated the tags as mentioned in [this guide](https://docs.seqera.io/platform/24.1/compute-envs/aws-batch#split-cost-allocation-tracking). #TODO
+- For effective use of resource labels, you have setup Split Cost Allocation tracking in your AWS account and activated the tags as mentioned in [this guide](https://docs.seqera.io/platform/24.1/compute-envs/aws-batch#split-cost-allocation-tracking).
 - If using private repositories, you have added your GitHub (or other VCS provider) credentials to the Seqera Platform workspace.
 
 ### Overview
@@ -24,11 +26,11 @@ This directory contains YAML configuration files to add your workflow to the Seq
 
 We can start by adding a simple Hello World pipeline to the Launchpad and then launching this in your chosen Workspace. This will ensure that `seqerakit` is working as expected and you are able to correctly add and launch a pipeline.
 
-### 1. Tutorial: Adding a pipeline to the Launchpad
+### Tutorial: Adding a pipeline to the Launchpad
 
 Before we add our custom workflow to the Launchpad, let's start by adding the Hello World pipeline to the Launchpad as defined in [`hello-world.yml`](../seqerakit/pipelines/hello-world.yml).
 
-### YAML format description
+#### YAML format description
 
 We can start by checking the YAML configuration file which defines the pipeline we will add to the workspace. The pipeline definition can be found at [`hello-world.yml`](./pipelines/hello_world.yml). Inspecting the contents here the file contains the following values:
 
@@ -49,7 +51,7 @@ The nested options in the YAML also correspond to options available for that par
 
 You will also notice that we have defined environment variables in the YAML that should now be available in your executing environment on the command-line as outlined in the [Define your environment variables](./seqerakit.md#define-your-environment-variables) section.
 
-### Dry run mode
+#### Dry run mode
 
 Before we add the pipeline to the Launchpad let's run `seqerakit` in dry run mode. This will print the CLI commands that will be executed by `seqerakit` without actually deploying anything to the platform.
 
@@ -70,7 +72,7 @@ DEBUG:root:DRYRUN: Running command tw pipelines add --name nf-hello-world --work
 
 This indicates seqerakit is interpreting the YAML file and is able to run some commands. Check the commands written to the console. Do they look reasonble? Does `SEQERA_ORGANIZATION_NAME`, `SEQERA_WORKSPACE_NAME` reflect the variables you are trying to use? If so, we can proceed to the next step.
 
-### Adding the pipeline
+#### Adding the pipeline
 
 We will now add the pipeline to the Launchpad by removing the `--dryrun` option from the command-line:
 
