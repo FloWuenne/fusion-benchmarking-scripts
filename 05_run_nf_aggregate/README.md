@@ -1,12 +1,13 @@
 # nf-aggregate: Pipeline to collate benchmarking metrics
 
 ## Table of contents
-
-- [Prerequisites](#prerequisites)
-- [Samplesheet generation](#samplesheet-generation)
-- [Adding a Dataset](#adding-a-dataset)
-- [Running nf-aggregate](#running-nf-aggregate)
-- [Inspecting the results](#inspecting-the-results)
+1. [Prerequisites](#prerequisites)
+2. [Samplesheet generation](#samplesheet-generation)
+3. [Adding a Dataset](#adding-a-dataset)
+4. [Running nf-aggregate](#running-nf-aggregate)
+   - [Adding the Pipeline to the Launchpad](#adding-the-pipeline-to-the-launchpad)
+   - [Launching the Pipeline](#launching-the-pipeline)
+   - [Inspecting the results](#inspecting-the-results)
 
 Once the runs for for your custom workflow have succeeded on Fusion V2 and Plain S3, you will need to compile a report highlighting key run-level metrics that can be used to assess whether your infrastructure has been correctly configured. We have written a Nextflow pipeline called [nf-aggregate](https://github.com/seqeralabs/nf-aggregate) that is able to do this in a standardized, reproducible manner.
 
@@ -43,7 +44,7 @@ id,workspace
 88QXz4OfQDpwOV,community/showcase
 ```
 
-## Adding a Dataset
+### Adding a Dataset
 
 To use the `runs_ids.csv` file as input to nf-aggregate, add it to your Seqera Platform workspace as a Dataset with the following Seqera CLI command:
 

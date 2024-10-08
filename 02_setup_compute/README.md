@@ -11,8 +11,7 @@ This directory contains YAML configuration files for the creation of two compute
 3. [YAML format description](#yaml-format-description)
    - [Fusion V2 Compute Environment](#fusion-v2-compute-environment)
    - [Plain S3 Compute Environment](#plain-s3-compute-environment)
-4. [Creating the compute environments](#creating-the-compute-environments)
-5. [Verifying the compute environments](#verifying-the-compute-environments)
+4. [Usage](#usage)
 
 ### Prerequisites
 

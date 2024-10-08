@@ -2,7 +2,7 @@
 
 ## Seqera Platform
 
-You will need access to the following within the Platform:
+You will need access to the following within Seqera Platform:
 
 - [Workspace](https://docs.seqera.io/platform/23.3.0/orgs-and-teams/workspace-management)
 - Minimum of [Maintain](https://docs.seqera.io/platform/23.3.0/orgs-and-teams/workspace-management#participant-roles) user permissions within the Workspace

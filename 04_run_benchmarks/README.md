@@ -5,6 +5,8 @@
 2. [Overview](#overview)
 3. [Launching hello workflow from the Launchpad](#launching-hello-workflow-from-the-launchpad)
 4. [Run benchmarks for the custom workflow](#run-benchmarks-for-the-custom-workflow)
+   - [YAML format description](#yaml-format-description)
+   - [Launching the custom workflow](#launching-the-custom-workflow)
 
 ### Prerequisites
 
@@ -24,7 +26,7 @@ This directory contains YAML configuration files to launch the workflows on the 
 
 We will launch the hello world workflow from the Launchpad to ensure that the Seqera Platform is working as expected with both the Fusion V2 and plain S3 compute environments before running the benchmarks for the custom workflow.
 
-## 1. Launching hello workflow from the Launchpad
+## Launching hello workflow from the Launchpad
 
 We have provided separate YAML files [`hello_world_fusion.yml`](../04_run_benchmarks/launch/hello-world-fusion.yml) and [`hello_world_plains3.yml`](../04_run_benchmarks/launch/hello-world-plains3.yml) that contain the appropriate configuration to launch the Hello World pipeline we just added to the Launchpad.
 
@@ -41,11 +43,14 @@ DEBUG:root: Running command: tw launch nf-hello-world-plains3-$TIME --name nf-he
 
 When you check the running pipelines tab of your Seqera Platform workspace, you should now see the Hello World pipelines being submitted for execution.
 
-![Hello World launch](../docs/images/hello-world-pipelines-launch.png)
+<!-- 
+This is currently missing #TODO
+![Hello World launch](../docs/images/hello-world-pipelines-launch.png) 
+-->
 
 You may have to wait for the pipeline to begin executing and eventually complete. If you observe any failures, you will need to fix these systematically. If you don't, put your feet up and put the kettle on before moving on to the next step to run the benchmarks.
 
-## 2. Run benchmarks for the custom workflow
+## Run benchmarks for the custom workflow
 
 Now that we have verified that the Seqera Platform is working as expected with both the Fusion V2 and plain S3 compute environments, we can run the benchmarks for the custom workflow.
 
@@ -89,7 +94,7 @@ or you can update the [pre-run script](../03_setup_pipelines/pipelines/pre_run.s
 ```bash
 export NXF_VER=<version of Nextflow>
 ```
-
+<!-- omit in toc -->
 ### Launching the custom workflow
 
 We will now launch the custom workflow from the Launchpad using the YAML files we have defined in this repository. From the current directory, run the command below to launch the pipeline with the Fusion V2 compute environment:
