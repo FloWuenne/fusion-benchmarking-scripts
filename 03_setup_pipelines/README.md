@@ -108,25 +108,25 @@ Now that you have confirmed your seqerakit setup is working and added the hello 
     - `labels`: The labels to use for the workflow. This is a list of labels to use for the workflow. These can be used to organise the workflow runs in the Seqera Platform.
 
 
-    The remaining details are optional and can be used to customise your workflow run.
+        The remaining details are optional and can be used to customise your workflow run.
 
-    A few of the details have been set for you in the example workflows. These are to ensure that the workflow run is configured to run on the Seqera Platform with the appropriate compute environment.
+        A few of the details have been set for you in the example workflows. These are to ensure that the workflow run is configured to run on the Seqera Platform with the appropriate compute environment.
 
-    ---
+        ---
 
-    **_NOTE:_** We have specified a [local path to a Nextflow config file](./pipelines/nextflow.config) through the `config:` option. This config file includes custom configuration settings for attaching resource labels to each process in the workflow. These resource labels will attach metadata such as the unique run id, pipeline name, process name, and so on, to each task submitted to AWS Batch. 
-    
-    ```json
-    process {
-    resourceLabels = {[
-            uniqueRunId: System.getenv("TOWER_WORKFLOW_ID"),
-            pipelineProcess: task.process.toString(),
-    ...
-    ```
-    
-    This config is required to retrieve effective cost allocation for each process in the workflow using AWS Data Exports. See the [AWS Cost Guide](../docs/aws_cost_guide.md) for further details. If you remove the `config:` option, the default Nextflow config will be used which does not contain these resource labels and your tasks will not be tracked for cost allocation.
+        **_NOTE:_** We have specified a [local path to a Nextflow config file](./pipelines/nextflow.config) through the `config:` option. This config file includes custom configuration settings for attaching resource labels to each process in the workflow. These resource labels will attach metadata such as the unique run id, pipeline name, process name, and so on, to each task submitted to AWS Batch. 
+        
+        ```json
+        process {
+        resourceLabels = {[
+                uniqueRunId: System.getenv("TOWER_WORKFLOW_ID"),
+                pipelineProcess: task.process.toString(),
+        ...
+        ```
+        
+        This config is required to retrieve effective cost allocation for each process in the workflow using AWS Data Exports. See the [AWS Cost Guide](../docs/aws_cost_guide.md) for further details. If you remove the `config:` option, the default Nextflow config will be used which does not contain these resource labels and your tasks will not be tracked for cost allocation.
 
-    ---
+        ---
 
 3. Save the file and close the text editor. Feel free to rename the file to something more descriptive of your workflow.
 4. Use these YAML files to add your workflows to the Seqera Platform Launchpad by running the following command:
