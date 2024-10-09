@@ -114,7 +114,7 @@ Now that you have confirmed your seqerakit setup is working and added the hello 
 
         ---
 
-        **_NOTE:_** We have specified a [local path to a Nextflow config file](./pipelines/nextflow.config) through the `config:` option. This config file includes custom configuration settings for attaching resource labels to each process in the workflow. These resource labels will attach metadata such as the unique run id, pipeline name, process name, and so on, to each task submitted to AWS Batch. 
+        **_NOTE:_** We have [specified a local path](https://github.com/ejseqera/biorad-fusion-benchmark/blob/39692088753e3c45b199310dcb8bcffe061bc195/03_setup_pipelines/pipelines/example_workflow_A_fusion.yml#L9) to a [Nextflow config file](./pipelines/nextflow.config) through the `config:` option. This config file includes custom configuration settings for attaching resource labels to each process in the workflow. These resource labels will attach metadata such as the unique run id, pipeline name, process name, and so on, to each task submitted to AWS Batch. 
         
         ```json
         process {
