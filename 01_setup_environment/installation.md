@@ -9,7 +9,6 @@ You will need access to the following within Seqera Platform:
 - [Compute Environment](https://docs.seqera.io/platform/23.3.0/compute-envs/overview) that has already been pre-configured
 - [Access token](https://docs.seqera.io/platform/23.3.0/api/overview#authentication) which is your personal authorization token for the Seqera Platform CLI. This can be created in the user menu under **Your tokens**.
 
-The Compute Environment used within this tutorial will need to have access to the AWS iGenomes public bucket `s3://igenomes/`. This is a public repository of reference and test data used by nf-core pipelines and will be required as part of the standardized infrastructure benchmark. The bucket path can be explicitly specified in the **Allowed S3 buckets** field of your Compute Environment if required.
 
 ## Software dependencies
 

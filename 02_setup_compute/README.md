@@ -5,6 +5,8 @@ This directory contains YAML configuration files for the creation of two compute
 - `aws_fusion_nvme.yml`: This compute environment is designed to run on Amazon Web Services (AWS) Batch and uses Fusion V2 with the 6th generation intel instance type with NVMe storage.
 - `aws_plain_s3.yml`: This compute environment is designed to run on Amazon Web Services (AWS) Batch and uses the plain AWS Batch with S3 storage.
 
+These YAML files provide best practice configurations for utilizing these two storage types in AWS Batch compute environments. The Fusion V2 configuration is tailored for high-performance workloads leveraging NVMe storage, while the plain S3 configuration offers a standard setup for comparison and workflows that don't require the advanced features of Fusion V2.
+
 ## Table of contents
 1. [Compute environments](#compute-environments)
 2. [Prerequisites](#prerequisites)
@@ -30,20 +32,20 @@ If we inspect the contents of [`aws_fusion_nvme.yml`](./compute-envs/aws_fusion_
 compute-envs:
   - type: aws-batch
     config-mode: forge
-    name: "benchmark_aws_fusion_nvme"
+    name: "aws_fusion_nvme"
     workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"
-    credentials: "seqera_aws_development_credentials"
-    region: "$AWS_REGION"
-    work-dir: "$AWS_WORK_DIR"
+    credentials: "your-aws-credentials"
+    region: "us-east-1"
+    work-dir: "s3://your-bucket"
     wave: True
     fusion-v2: True
     fast-storage: True
     no-ebs-auto-scale: True
     provisioning-model: "SPOT"
     instance-types: "c6id,m6id,r6id"
-    max-cpus: 500
-    allow-buckets: "$AWS_COMPUTE_ENV_ALLOWED_BUCKETS"
-    labels: "$AWS_COMPUTE_ENV_LABELS"
+    max-cpus: 1000
+    allow-buckets: "s3://bucket1,s3://bucket2,s3://bucket3"
+    labels: "fusionv2,benchmarking"
     wait: "AVAILABLE"
     overwrite: False
 ```
@@ -75,25 +77,25 @@ Similarly, if we inspect the contents of [`aws_plain_s3.yml`](./compute-envs/aws
 
 
 ```yaml
-compute-envs:
+ccompute-envs:
   - type: aws-batch
     config-mode: forge
-    name: "benchmark_aws_plain_s3"
+    name: "aws_plain_s3"
     workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"
-    credentials: "seqera_aws_development_credentials"
-    region: "$AWS_REGION"
-    work-dir: "$AWS_WORK_DIR"
+    credentials: "your-aws-credentials"
+    region: "us-east-1"
+    work-dir: "s3://your-bucket"
     wave: False
     fusion-v2: False
     fast-storage: False
     no-ebs-auto-scale: False
     provisioning-model: "SPOT"
     max-cpus: 1000
-    allow-buckets: "$AWS_COMPUTE_ENV_ALLOWED_BUCKETS"
-    labels: "$AWS_COMPUTE_ENV_LABELS"
+    allow-buckets: "s3://bucket1,s3://bucket2,s3://bucket3"
+    labels: "plains3,benchmarking"
     wait: "AVAILABLE"
     overwrite: False
-    ebs-blocksize: 300
+    ebs-blocksize: 150
 ```
 
 The structure is similar to the Fusion V2 configuration, with key differences to optimize for plain S3 storage:
@@ -106,8 +108,8 @@ The structure is similar to the Fusion V2 configuration, with key differences to
     - This option disables the use of fast instance storage, as we're relying on an EBS volume.
 - `no-ebs-auto-scale: False`
     - This allows for EBS auto-scaling, which can be beneficial when not using Fusion V2.
-- `ebs-blocksize: 300`
-    - This sets the initial EBS block size to 300 GB, providing additional storage for compute instances You may choose to increase this depending on how large your test benchmarking data is for your custom workflow.
+- `ebs-blocksize: 150`
+    - This sets the initial EBS block size to 150 GB, providing additional storage for compute instances You may choose to increase this depending on how large your test benchmarking data is for your custom workflow.
 
 Other options remain similar to the Fusion V2 configuration:
 
@@ -126,8 +128,8 @@ To fill in the details for each of the compute environments:
 2. Open the desired YAML file (`aws_fusion_nvme.yml` or `aws_plain_s3.yml`) in a text editor.
 3. Fill in the following details for each file:
 
-   - `workspace`: Provide the name of your workspace in Seqera Platform in `organization/workspace` format (e.g., `seqeralabs/benchmarks`).
-   - `name`: Provide a unique name for your compute environment.
+   - `workspace`: This uses two environment variables $ORGANIZATION_NAME/$WORKSPACE_NAME that you should have set in your `env.sh` file in the [Environment setup](../01_setup_environment/env.sh).
+   - `name`: Provide a unique name for your compute environment. We have provided one for you which you can modify.
    - `workDir`: Specify the S3 bucket path for the work directory (e.g., `s3://your-bucket-name/work`).
    - `region`: Enter the AWS region where you want to run the compute environment.
    - `credentials`: Provide the name of your AWS credentials as stored in your Seqera Platform workspace.

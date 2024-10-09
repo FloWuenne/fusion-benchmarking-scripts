@@ -1,7 +1,7 @@
 compute-envs:
   - type: aws-batch
     config-mode: forge
-    name: "${COMPUTE_NAME_PREFIX}_aws_fusion_nvme"
+    name: "aws_fusion_nvme"
     workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"
     credentials: "your-aws-credentials"
     region: "us-east-1"

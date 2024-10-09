@@ -1,7 +1,7 @@
 compute-envs:
   - type: aws-batch
     config-mode: forge
-    name: "${COMPUTE_NAME_PREFIX}_aws_plain_s3"
+    name: "aws_plain_s3"
     workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"
     credentials: "your-aws-credentials"
     region: "us-east-1"
@@ -16,4 +16,4 @@ compute-envs:
     labels: "plains3,benchmarking"
     wait: "AVAILABLE"
     overwrite: False
-    ebs-blocksize: 300
+    ebs-blocksize: 150
