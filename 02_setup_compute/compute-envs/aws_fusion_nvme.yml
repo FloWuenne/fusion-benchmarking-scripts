@@ -14,6 +14,6 @@ compute-envs:
     instance-types: "c6id,m6id,r6id"
     max-cpus: 1000
     allow-buckets: "s3://bucket1,s3://bucket2,s3://bucket3"
-    labels: "fusionv2,benchmarking"
+    labels: "disk=fusionv2,project=benchmarking"
     wait: "AVAILABLE"
     overwrite: False
