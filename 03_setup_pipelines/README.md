@@ -11,7 +11,7 @@
 ### Prerequisites
 
 - You have setup a Fusion V2 and plain S3 compute environment in the Seqera Platform in the [previous section](../02_setup_compute/README.md).
-- You have an S3 bucket for saving the workflow outputs.
+- You have created an S3 bucket for saving the workflow outputs.
 - For effective use of resource labels, you have setup Split Cost Allocation tracking in your AWS account and activated the tags as mentioned in [this guide](https://docs.seqera.io/platform/24.1/compute-envs/aws-batch#split-cost-allocation-tracking).
 - If using private repositories, you have added your GitHub (or other VCS provider) credentials to the Seqera Platform workspace.
 
@@ -19,9 +19,9 @@
 
 This directory contains YAML configuration files to add your workflow to the Seqera Platform Launchpad, as well as add the [nextflow-io/hello](https://github.com/nextflow-io/hello) workflow to the Seqera Platform Launchpad:
 
-- `example_workflow_A_fusion.yml`: This configuration is to setup your custom workflow for benchmarking to run on Fusion V2 with the 6th generation intel instance type with NVMe storage. This workflow will use the `benchmark_aws_fusion_nvme` compute environment created in the [previous section](../02_setup_compute/README.md).
-- `example_workflow_A_plains3.yml`: This configuration is to setup your custom workflow for benchmarking to run on plain AWS Batch with S3 storage. This workflow will use the `benchmark_aws_plain_s3` compute environment created in the [previous section](../02_setup_compute/README.md).
-- `hello-world.yml`: This configuration is to setup the [nextflow-io/hello](https://github.com/nextflow-io/hello) workflow to run on the Seqera Platform. This workflow will use the `benchmark_aws_fusion_nvme` compute environment created in the [previous section](../02_setup_compute/README.md).
+- `example_workflow_A_fusion.yml`: This configuration is to setup your custom workflow for benchmarking to run on Fusion V2 with the 6th generation intel instance type with NVMe storage. This workflow will use the `aws_fusion_nvme` compute environment created in the [previous section](../02_setup_compute/README.md).
+- `example_workflow_A_plains3.yml`: This configuration is to setup your custom workflow for benchmarking to run on plain AWS Batch with S3 storage. This workflow will use the `aws_plain_s3` compute environment created in the [previous section](../02_setup_compute/README.md).
+- `hello-world.yml`: This configuration is to setup the [nextflow-io/hello](https://github.com/nextflow-io/hello) workflow to run on the Seqera Platform. This workflow will use the `aws_fusion_nvme` compute environment created in the [previous section](../02_setup_compute/README.md).
 
 
 We can start by adding a simple Hello World pipeline to the Launchpad and then launching this in your chosen Workspace. This will ensure that `seqerakit` is working as expected and you are able to correctly add and launch a pipeline.
@@ -36,11 +36,11 @@ We can start by checking the YAML configuration file which defines the pipeline 
 
 ```yaml
 pipelines:
-  - name: "nf-hello-world"
+  - name: "nf-hello-world-test"
     url: "https://github.com/nextflow-io/hello"
-    workspace: "$SEQERA_ORGANIZATION_NAME/$SEQERA_WORKSPACE_NAME"
+    workspace: '$ORGANIZATION_NAME/$WORKSPACE_NAME'
     description: "Classic Hello World script in Nextflow language."
-    compute-env: "benchmark_aws_fusion_nvme"
+    compute-env: "aws_fusion_nvme"
     revision: "master"
     overwrite: True
 ```
@@ -64,13 +64,10 @@ $ seqerakit --dryrun ./pipelines/hello-world.yml
 You should see the following output appear in the shell:
 
 ```shell
-DEBUG:root: Overwrite is set to 'True' for pipelines
-
-DEBUG:root:DRYRUN: Running command tw -o json pipelines list -w $SEQERA_ORGANIZATION_NAME/$SEQERA_WORKSPACE_NAME
-DEBUG:root:DRYRUN: Running command tw pipelines add --name nf-hello-world --workspace $SEQERA_ORGANIZATION_NAME/$SEQERA_WORKSPACE_NAME --description 'Classic Hello World script in Nextflow language.' --compute-env $SEQERA_COMPUTE_ENV_NAME --revision master https://github.com/nextflow-io/hello
+INFO:root:DRYRUN: Running command tw pipelines add --name nf-hello-world-test --workspace $ORGANIZATION_NAME/$WORKSPACE_NAME --description 'Classic Hello World script in Nextflow language.' --compute-env aws_fusion_nvme --revision master https://github.com/nextflow-io/hello
 ```
 
-This indicates seqerakit is interpreting the YAML file and is able to run some commands. Check the commands written to the console. Do they look reasonble? Does `SEQERA_ORGANIZATION_NAME`, `SEQERA_WORKSPACE_NAME` reflect the variables you are trying to use? If so, we can proceed to the next step.
+This indicates seqerakit is interpreting the YAML file and is able to run some commands. Check the commands written to the console. Do they look reasonble? If so, we can proceed to the next step.
 
 #### Adding the pipeline
 
@@ -80,8 +77,8 @@ We will now add the pipeline to the Launchpad by removing the `--dryrun` option 
 $ seqerakit ./seqerakit/pipelines/hello-world.yml
 DEBUG:root: Overwrite is set to 'True' for pipelines
 
-DEBUG:root: Running command: tw -o json pipelines list -w $SEQERA_ORGANIZATION_NAME/$SEQERA_WORKSPACE_NAME
-DEBUG:root: Running command: tw pipelines add --name nf-hello-world --workspace $SEQERA_ORGANIZATION_NAME/$SEQERA_WORKSPACE_NAME --description 'Classic Hello World script in Nextflow language.' --compute-env $SEQERA_COMPUTE_ENV_NAME --revision master https://github.com/nextflow-io/hello
+DEBUG:root: Running command: tw -o json pipelines list -w $ORGANIZATION_NAME/$WORKSPACE_NAME
+DEBUG:root: Running command: tw pipelines add --name nf-hello-world-test --workspace $ORGANIZATION_NAME/$WORKSPACE_NAME --description 'Classic Hello World script in Nextflow language.' --compute-env aws_fusion_nvme --revision master https://github.com/nextflow-io/hello
 ```
 
 Go to the Launchpad page on your workspace on Seqera platform. You should see the hello world pipeline available to launch.
@@ -90,7 +87,7 @@ Go to the Launchpad page on your workspace on Seqera platform. You should see th
 
 ### 2. Add your workflow to the Launchpad
 
-You will need to complete the configuration for each of the workflows before you can add them to the Launchpad with details specific to your workflow.
+Now that you have confirmed your seqerakit setup is working and added the hello world pipeline, you will need to complete the configuration for each of your custom workflows before you can add them to the Launchpad with details specific to your workflow.
 
 1. Navigate to the `pipelines/` directory.
 2. Open the `example_workflow_A_fusion.yml` file and edit the details for your workflow in a text editor. Specifically, at the minimum you will need to set the following details:
@@ -98,8 +95,8 @@ You will need to complete the configuration for each of the workflows before you
     - `url`: The URL of the workflow repository on GitHub. 
         Note: If you are using a private repository, you will need to ensure your repository credentials have been added to the Seqera Platform workspace where you are running the workflow.
     - `description`: A short description of the workflow.
-    - `profile`: The profile to use for the workflow. For example, if you were using the `nf-core/rnaseq` workflow, you will need to set the `profile` to `test` or `test_full` depending on the tests you want to run.
-    - `revision`: The revision of the workflow to use for the workflow. This is the branch name or the commit hash to use for the workflow.
+    - `profile`: The profile to use for the workflow. For example, if you were using the `nf-core/rnaseq` workflow, you will need to set the `profile` to `test` or `test_full` depending on the tests you want to run. If you are not specifying a profile, you can remove this line.
+    - `revision`: The revision of the workflow to use for the workflow. This is the branch name, tag or the commit hash to use for the workflow.
     - `params`: The parameters to use for the workflow. This is a list of parameters the workflow will use on the Launchpad. These can be specified as a list of key-value pairs inline or as a path to a file containing the parameters with the `params-file:` option.
     - `pre-run`: The pre-run script to use for the workflow. This is a path to a script that will be run before the workflow is run. This can be used to setup the workflow environment. We have commented out a pre-run script in the example YAML file.
     - `labels`: The labels to use for the workflow. This is a list of labels to use for the workflow. These can be used to organise the workflow runs in the Seqera Platform.
