@@ -132,7 +132,7 @@ Now that you have confirmed your seqerakit setup is working and added the hello 
 4. Use these YAML files to add your workflows to the Seqera Platform Launchpad by running the following command:
 
 ```bash
-seqerakit pipelines/*.yml
+seqerakit *.yml
 ```
 
 This will add all pipelines to the Seqera Platform Launchpad and you will be able to see it in the Launchpad UI.
