@@ -1,21 +1,22 @@
 ## Setup pipelines on Seqera Platform
 
 ### Table of contents
-1. [Prerequisites](#prerequisites)
-2. [Overview](#overview)
-3. [Tutorial: Adding a pipeline to the Launchpad](#tutorial-adding-a-pipeline-to-the-launchpad)
+1. [Prerequisites](#1--prerequisites)
+2. [Overview](#2--overview)
+3. [Tutorial: Adding a pipeline to the Launchpad](#1--tutorial-adding-a-test-pipeline-to-the-launchpad)
    - [YAML format description](#yaml-format-description)
    - [Dry run mode](#dry-run-mode)
    - [Adding the pipeline](#adding-the-pipeline)
+4. [Add your workflow to the Launchpad](#4--add-your-workflow-to-the-launchpad)
 
-### Prerequisites
+### 1. Prerequisites
 
 - You have setup a Fusion V2 and plain S3 compute environment in the Seqera Platform in the [previous section](../02_setup_compute/README.md).
 - You have created an S3 bucket for saving the workflow outputs.
 - For effective use of resource labels, you have setup Split Cost Allocation tracking in your AWS account and activated the tags as mentioned in [this guide](https://docs.seqera.io/platform/24.1/compute-envs/aws-batch#split-cost-allocation-tracking). << this link broken, not sure what the corect one would be
 - If using private repositories, you have added your GitHub (or other VCS provider) credentials to the Seqera Platform workspace.
 
-### Overview
+### 2. Overview
 
 This directory contains YAML configuration files to add your workflow to the Seqera Platform Launchpad, as well as add the [nextflow-io/hello](https://github.com/nextflow-io/hello) workflow to the Seqera Platform Launchpad:
 
@@ -26,7 +27,7 @@ This directory contains YAML configuration files to add your workflow to the Seq
 
 We can start by adding a simple Hello World pipeline to the Launchpad and then launching this in your chosen Workspace. This will ensure that `seqerakit` is working as expected and you are able to correctly add and launch a pipeline.
 
-### Tutorial: Adding a pipeline to the Launchpad
+### 3. Tutorial: Adding a test pipeline to the Launchpad
 
 Before we add our custom workflow to the Launchpad, let's start by adding the Hello World pipeline to the Launchpad as defined in [`hello-world.yml`](../seqerakit/pipelines/hello-world.yml).
 
@@ -90,7 +91,7 @@ Go to the Launchpad page on your workspace on Seqera platform. You should see th
 
 ![Hello World added to Launchpad](../docs/images/hello-world-pipelines-add.png)
 
-### 2. Add your workflow to the Launchpad
+### 4. Add your workflow to the Launchpad
 
 Now that you have confirmed your seqerakit setup is working and added the hello world pipeline, you will need to complete the configuration for each of your custom workflows before you can add them to the Launchpad with details specific to your workflow.
 
