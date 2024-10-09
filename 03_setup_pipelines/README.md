@@ -58,7 +58,7 @@ Before we add the pipeline to the Launchpad let's run `seqerakit` in dry run mod
 Run the following command in the root directory of this tutorial material:
 
 ```bash
-seqerakit --dryrun ./pipelines/hello-world.yml
+seqerakit --dryrun ./pipelines/hello_world.yml
 ```
 
 You should see the following output appear in the shell:
