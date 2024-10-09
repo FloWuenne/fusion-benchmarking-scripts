@@ -51,4 +51,10 @@ your_group2,5JpLOZ11kyHTvF.tar.gz
 
 ### Running the benchmark report compilation
 
-Now that we have the logs and samplesheet in place, we can compile the report. We have prepared a docker container that will use [Quarto](https://quarto.org/) with R to compile an interactive benchmark report for you to explore.
+Now that we have the logs and samplesheet in place, we can compile the report. We have prepared a docker container that will use [Quarto](https://quarto.org/) with R to compile an interactive benchmark report. To render the report, we need to run the following script:
+
+```bash
+
+```
+
+### Understanding the report

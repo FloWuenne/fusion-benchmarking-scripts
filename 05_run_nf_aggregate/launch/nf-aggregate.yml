@@ -1,9 +1,0 @@
-launch:
-  - name: "nf-aggregate-$TIME"
-    workspace: "$SEQERA_ORGANIZATION_NAME/$SEQERA_WORKSPACE_NAME"
-    params:
-      input: "$DATASET_URL"
-      outdir: "$PIPELINE_OUTDIR_PREFIX/nf-aggregate/$TIME/results"
-    pre-run: "./seqerakit/pipelines/pre_run.txt"
-    config: "./seqerakit/pipelines/nextflow_config.txt"
-    pipeline: "nf-aggregate-$PIPELINE_NAME_SUFFIX"

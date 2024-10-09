@@ -1,8 +1,0 @@
-pipelines:
-  - name: "nf-aggregate-$PIPELINE_NAME_SUFFIX"
-    url: "https://github.com/seqeralabs/nf-aggregate"
-    workspace: "$SEQERA_ORGANIZATION_NAME/$SEQERA_WORKSPACE_NAME"
-    description: "Pipeline to aggregate pertinent metrics across pipeline runs on the Seqera Platform."
-    compute-env: "$SEQERA_COMPUTE_ENV_NAME"
-    revision: "0.4.0"
-    overwrite: True
