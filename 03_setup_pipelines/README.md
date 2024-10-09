@@ -58,7 +58,7 @@ Before we add the pipeline to the Launchpad let's run `seqerakit` in dry run mod
 Run the following command in the root directory of this tutorial material:
 
 ```bash
-$ seqerakit --dryrun ./pipelines/hello-world.yml
+seqerakit --dryrun ./pipelines/hello-world.yml
 ```
 
 You should see the following output appear in the shell:
@@ -74,7 +74,12 @@ This indicates seqerakit is interpreting the YAML file and is able to run some c
 We will now add the pipeline to the Launchpad by removing the `--dryrun` option from the command-line:
 
 ```bash
-$ seqerakit ./seqerakit/pipelines/hello-world.yml
+seqerakit ./seqerakit/pipelines/hello-world.yml
+```
+
+Output will be like:
+
+```shell
 DEBUG:root: Overwrite is set to 'True' for pipelines
 
 DEBUG:root: Running command: tw -o json pipelines list -w $ORGANIZATION_NAME/$WORKSPACE_NAME
