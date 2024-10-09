@@ -84,7 +84,10 @@ source ./env.sh
 You can check that the environment variables are available as expected by running:
 
 ```bash
-$ echo $SEQERA_ORGANIZATION_NAME
+echo $SEQERA_ORGANIZATION_NAME
+```
+
+```
 community
 ```
 
