@@ -1,13 +1,13 @@
 ## Setup pipelines on Seqera Platform
 
 ### Table of contents
-1. [Prerequisites](#1--prerequisites)
-2. [Overview](#2--overview)
-3. [Tutorial: Adding a pipeline to the Launchpad](#1--tutorial-adding-a-test-pipeline-to-the-launchpad)
+1. [Prerequisites](#1-prerequisites)
+2. [Overview](#2-overview)
+3. [Tutorial: Adding a pipeline to the Launchpad](#3-tutorial-adding-a-test-pipeline-to-the-launchpad)
    - [YAML format description](#yaml-format-description)
    - [Dry run mode](#dry-run-mode)
    - [Adding the pipeline](#adding-the-pipeline)
-4. [Add your workflow to the Launchpad](#4--add-your-workflow-to-the-launchpad)
+4. [Add your workflow to the Launchpad](#4-add-your-workflow-to-the-launchpad)
 
 ### 1. Prerequisites
 
