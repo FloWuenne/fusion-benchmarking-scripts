@@ -19,18 +19,17 @@ Before proceeding with this tutorial, ensure you have the following:
 
 4. Basic familiarity with YAML file format and environment variables
 
-For detailed installation instructions and more information about these prerequisites, please refer to the [Installation Guide](./installation.md).
-
-
 ## Using seqerakit
 
-[Seqera Platform CLI](https://github.com/seqeralabs/tower-cli) is an infrastructure-as-code (IaC) tool which uses configuration files to define what your Seqera platform should look like, which means you are able to reproduce them. We use the YAML format because it is simple and easy to interpret while being flexible enough for this use case. We have provided all relevant YAML files for this tutorial.
+The [Seqera Platform CLI](https://github.com/seqeralabs/tower-cli) is an infrastructure-as-code (IaC) tool that allows you to define and reproduce your Seqera platform using configuration files. By using this approach, you can ensure consistency and scalability. The configuration is written in YAML, a format chosen for its simplicity and readability while remaining flexible enough to meet the needs of this tool. For this tutorial, we've provided all the relevant YAML files.
 
-Under the hood, `seqerakit` is simply exposing the command-line options available within the Seqera Platform CLI to allow you to set these in YAML configuration. You can also invoke and run `seqerakit` via [Python](https://github.com/seqeralabs/seqera-kit#launch-via-a-python-script) but that is out of the scope of this tutorial.
+At its core, `seqerakit` is designed to simplify access to the Seqera Platform CLI by allowing you to set command-line options within YAML configuration files. While you also have the option to launch `seqerakit` via [Python](https://github.com/seqeralabs/seqera-kit#launch-via-a-python-script), this tutorial will focus solely on the YAML-based configuration approach.
 
 ### Dynamic settings
 
-`seqerakit` will evaluate environment variables specified in the YAML files. Using environment variables permits a layer of abstraction when defining the YAML files for settings that might be frequently updated. This means the same YAML file can be re-used in a different context by evaluating the environment variable, for example, in this tutorial, we will use an environment variable called `SEQERA_ORGANIZATION_NAME` that will allow you to specify the name of the organization you are using within your Seqera Platform instance.
+`seqerakit` can evaluate **environment variables** defined within your YAML files. This approach adds a useful layer of flexibility, especially for settings that change often. By using environment variables, you can reuse the same YAML configuration across different contexts without hardcoding values.
+
+For example, in this tutorial, we will use an environment variable called `SEQERA_ORGANIZATION_NAME`. This allows you to easily specify the name of the organization you're using within your Seqera Platform instance, making it adaptable to different setups without modifying the YAML file itself.
 
 You can see this being used in the following example. Here, the pipeline will be launched in the workspace defined as `SEQERA_WORKSPACE_NAME` in the `SEQERA_ORGANIZATION_NAME`.
 
