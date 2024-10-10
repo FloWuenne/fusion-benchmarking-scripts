@@ -2,6 +2,17 @@
 
 The aim of this tutorial is to perform a standardized infrastructure benchmark in the Seqera Platform. At the end of this tutorial you will have ran a number of pipelines and collected performance metrics with which you can evaluate your infrastructure.
 
+This repository provides YAML templates to set up and run infrastructure benchmarks on the Seqera Platform. These templates are designed to streamline the process of creating and executing standardized benchmarks across different computing environments.
+
+**Note:** Users need to customize these templates for their specific infrastructure:
+
+1. **Compute Environment**: Modify configurations to match your setup (buckets, computing regions, networking, etc.).
+
+2. **Pipeline**: Update pipeline configurations with specific details for the workflow you will benchmark (URL, revision, profile, parameters, etc.).
+
+These customizations ensure the benchmarks accurately reflect your infrastructure's performance for the workflow you will assess.
+
+
 ## Overview
 
 This tutorial has been split up into 5 main components that you will need to complete in order:
@@ -12,9 +23,41 @@ This tutorial has been split up into 5 main components that you will need to com
 4. [Run benchmarks](04_run_benchmarks/README.md)
 5. [Generate benchmarking reports](05_generate_reports/README.md)
 
-### Experience
 
-This tutorial requires users to be comfortable with the Linux command line and common shell operations, and to have a basic understanding of the Seqera Platform and its features.
+## Preparation
+
+Before starting this tutorial, ensure you have the following prerequisites in place:
+
+1. Access to a Seqera Platform instance with:
+   - A [Workspace](https://docs.seqera.io/platform/23.3.0/orgs-and-teams/workspace-management) 
+   - [Maintain](https://docs.seqera.io/platform/23.3.0/orgs-and-teams/workspace-management#participant-roles) user permissions or higher within the Workspace
+   - An [Access token](https://docs.seqera.io/platform/23.3.0/api/overview#authentication) for the Seqera Platform CLI
+
+2. Software dependencies installed:
+   - [`seqerakit >=0.4.3`](https://github.com/seqeralabs/seqera-kit#installation)
+   - [Seqera Platform CLI (`>=0.9.0`)](https://github.com/seqeralabs/tower-cli#1-installation)
+   - [Python (`>=3.8`)](https://www.python.org/downloads/)
+   - [PyYAML](https://pypi.org/project/PyYAML/)
+   
+    Before continuing with the tutorial, please refer to the [installation guide](docs/installation.md) to ensure you have access to all of the required software dependencies and established connectivity to the Seqera Platform via the `seqerakit` command-line interface.
+
+3. AWS resources, data and configurations:
+   - AWS credentials set up in the Seqera Platform workspace
+   - Correct IAM permissions for [Batch Forge](https://docs.seqera.io/platform/24.1/compute-envs/aws-batch#batch-forge) (if using)
+   - An S3 bucket for the Nextflow work directory
+   - An S3 bucket for saving workflow outputs
+   - An S3 bucket containing the input samplesheet (or uploaded to the [workspace as a Dataset](https://docs.seqera.io/platform/24.1/data/datasets))
+   - Split Cost Allocation tracking set up in your AWS account with activated tags (see [this guide](../docs/assets/aws-split-cost-allocation-guide.md))
+
+4. If using private repositories, add your GitHub (or other VCS provider) credentials to the Seqera Platform workspace
+
+5. Familiarity with:
+   - Basic YAML file format
+   - Environment variables
+   - Linux command line and common shell operations
+   - Seqera Platform and its features
+
+After ensuring all these prerequisites are met, you'll be ready to proceed with the tutorial steps for setting up and running infrastructure benchmarks on the Seqera Platform.
 
 ### Seqerakit
 
@@ -22,20 +65,7 @@ We will perform this analysis in an automated manner using a Python package call
 
 `seqerakit` is a Python wrapper for the [Seqera Platform CLI](https://github.com/seqeralabs/tower-cli) which can be leveraged to automate the creation of all of the entities in Seqera Platform via a simple configuration file in YAML format.
 
-The key features are:
-
-- **Simple configuration**: All of the command-line options available when using the Seqera Platform CLI can be defined in simple YAML format.
-- **Infrastructure as Code**: Enable users to manage and provision their infrastructure specifications.
-- **Automation**: End-to-end creation of entities within Seqera Platform, all the way from adding an Organization to launching pipeline(s) within that Organization.
-
-Please watch the ['Automation on the Seqera Platform'](https://www.youtube.com/watch?v=1ZQPiktMIzg) talk given by Harshil Patel (Head of Scientific Development, Seqera Labs) at the Nextflow Summit, Barcelona 2023 to see `seqerakit` in action!
-
-### Software requirements
-
-Before continuing with the tutorial, please refer to the [installation guide](docs/installation.md) to ensure you have:
-
-- Access to all of the required software dependencies
-- Established connectivity to the Seqera Platform via the `seqerakit` command-line interface
+Seqerakit offers simple YAML-based configuration, infrastructure-as-code capabilities, and end-to-end automation for creating entities within Seqera Platform. For a demonstration of Seqerakit in action, watch the ['Automation on the Seqera Platform'](https://www.youtube.com/watch?v=1ZQPiktMIzg) talk by Harshil Patel at the Nextflow Summit, Barcelona 2023.
 
 ## Resources
 
