@@ -1,32 +1,33 @@
 ## Setup pipelines on Seqera Platform
 
 ### Table of contents
-1. [Prerequisites](#prerequisites)
-2. [Overview](#overview)
-3. [Tutorial: Adding a pipeline to the Launchpad](#tutorial-adding-a-pipeline-to-the-launchpad)
+1. [Prerequisites](#1-prerequisites)
+2. [Overview](#2-overview)
+3. [Tutorial: Adding a pipeline to the Launchpad](#3-tutorial-adding-a-test-pipeline-to-the-launchpad)
    - [YAML format description](#yaml-format-description)
    - [Dry run mode](#dry-run-mode)
    - [Adding the pipeline](#adding-the-pipeline)
+4. [Add your workflow to the Launchpad](#4-add-your-workflow-to-the-launchpad)
 
-### Prerequisites
+### 1. Prerequisites
 
 - You have setup a Fusion V2 and plain S3 compute environment in the Seqera Platform in the [previous section](../02_setup_compute/README.md).
 - You have created an S3 bucket for saving the workflow outputs.
-- For effective use of resource labels, you have setup Split Cost Allocation tracking in your AWS account and activated the tags as mentioned in [this guide](https://docs.seqera.io/platform/24.1/compute-envs/aws-batch#split-cost-allocation-tracking).
+- For effective use of resource labels, you have setup Split Cost Allocation tracking in your AWS account and activated the tags as mentioned in [this guide](../docs/assets/aws-split-cost-allocation-guide.md).
 - If using private repositories, you have added your GitHub (or other VCS provider) credentials to the Seqera Platform workspace.
 
-### Overview
+### 2. Overview
 
 This directory contains YAML configuration files to add your workflow to the Seqera Platform Launchpad, as well as add the [nextflow-io/hello](https://github.com/nextflow-io/hello) workflow to the Seqera Platform Launchpad:
 
-- `example_workflow_A_fusion.yml`: This configuration is to setup your custom workflow for benchmarking to run on Fusion V2 with the 6th generation intel instance type with NVMe storage. This workflow will use the `aws_fusion_nvme` compute environment created in the [previous section](../02_setup_compute/README.md).
-- `example_workflow_A_plains3.yml`: This configuration is to setup your custom workflow for benchmarking to run on plain AWS Batch with S3 storage. This workflow will use the `aws_plain_s3` compute environment created in the [previous section](../02_setup_compute/README.md).
-- `hello-world.yml`: This configuration is to setup the [nextflow-io/hello](https://github.com/nextflow-io/hello) workflow to run on the Seqera Platform. This workflow will use the `aws_fusion_nvme` compute environment created in the [previous section](../02_setup_compute/README.md).
+- `example_workflow_A_fusion.yml`: This configuration is to setup your custom workflow for benchmarking to run on Fusion V2 with the 6th generation intel instance type with NVMe storage. This workflow will use the `aws_fusion_nvme` compute environment created in the [previous section](../02_setup_compute/README.md#1-fusion-enabled-compute-environment).
+- `example_workflow_A_plains3.yml`: This configuration is to setup your custom workflow for benchmarking to run on plain AWS Batch with S3 storage. This workflow will use the `aws_plain_s3` compute environment created in the [previous section](../02_setup_compute/README.md#2-plain-s3-compute-environment).
+- `hello-world.yml`: This configuration is to setup the [nextflow-io/hello](https://github.com/nextflow-io/hello) workflow to run on the Seqera Platform. This workflow will use the `aws_fusion_nvme` compute environment created in the [previous section](../02_setup_compute/README.md#1-fusion-enabled-compute-environment).
 
 
 We can start by adding a simple Hello World pipeline to the Launchpad and then launching this in your chosen Workspace. This will ensure that `seqerakit` is working as expected and you are able to correctly add and launch a pipeline.
 
-### Tutorial: Adding a pipeline to the Launchpad
+### 3. Tutorial: Adding a test pipeline to the Launchpad
 
 Before we add our custom workflow to the Launchpad, let's start by adding the Hello World pipeline to the Launchpad as defined in [`hello-world.yml`](../seqerakit/pipelines/hello-world.yml).
 
@@ -58,7 +59,7 @@ Before we add the pipeline to the Launchpad let's run `seqerakit` in dry run mod
 Run the following command in the root directory of this tutorial material:
 
 ```bash
-$ seqerakit --dryrun ./pipelines/hello-world.yml
+seqerakit --dryrun ./pipelines/hello_world.yml
 ```
 
 You should see the following output appear in the shell:
@@ -74,7 +75,11 @@ This indicates seqerakit is interpreting the YAML file and is able to run some c
 We will now add the pipeline to the Launchpad by removing the `--dryrun` option from the command-line:
 
 ```bash
-$ seqerakit ./seqerakit/pipelines/hello-world.yml
+seqerakit ./seqerakit/pipelines/hello_world.yml
+```
+Output will be like:
+
+```shell
 DEBUG:root: Overwrite is set to 'True' for pipelines
 
 DEBUG:root: Running command: tw -o json pipelines list -w $ORGANIZATION_NAME/$WORKSPACE_NAME
@@ -85,7 +90,7 @@ Go to the Launchpad page on your workspace on Seqera platform. You should see th
 
 ![Hello World added to Launchpad](../docs/images/hello-world-pipelines-add.png)
 
-### 2. Add your workflow to the Launchpad
+### 4. Add your workflow to the Launchpad
 
 Now that you have confirmed your seqerakit setup is working and added the hello world pipeline, you will need to complete the configuration for each of your custom workflows before you can add them to the Launchpad with details specific to your workflow.
 
@@ -102,31 +107,29 @@ Now that you have confirmed your seqerakit setup is working and added the hello 
     - `labels`: The labels to use for the workflow. This is a list of labels to use for the workflow. These can be used to organise the workflow runs in the Seqera Platform.
 
 
-The remaining details are optional and can be used to customise your workflow run.
+    The remaining details are optional and can be used to customise your workflow run.
 
-A few of the details have been set for you in the example workflows. These are to ensure that the workflow run is configured to run on the Seqera Platform with the appropriate compute environment.
+    A few of the details have been set for you in the example workflows. These are to ensure that the workflow run is configured to run on the Seqera Platform with the appropriate compute environment.
 
----
+    ---
 
- **_NOTE:_** We have specified a [local path to a Nextflow config file](./pipelines/nextflow.config) through the `config:` option. This config file includes custom configuration settings for attaching resource labels to each process in the workflow. These resource labels will attach metadata such as the unique run id, pipeline name, process name, and so on, to each task submitted to AWS Batch. 
- 
-```json
-process {
-   resourceLabels = {[
-        uniqueRunId: System.getenv("TOWER_WORKFLOW_ID"),
-        pipelineProcess: task.process.toString(),
-...
-```
- 
- This config is required to retrieve effective cost allocation for each process in the workflow using AWS Data Exports. See the [AWS Cost Guide](../docs/aws_cost_guide.md) for further details. If you remove the `config:` option, the default Nextflow config will be used which does not contain these resource labels and your tasks will not be tracked for cost allocation.
+    **_NOTE:_** We have [specified a local path](../03_setup_pipelines/pipelines/example_workflow_A_fusion.yml#L9) to a [Nextflow config file](./pipelines/nextflow.config) through the `config:` option. This config file includes custom configuration settings for attaching resource labels to each process in the workflow. These resource labels will attach metadata such as the unique run id, pipeline name, process name, and so on, to each task submitted to AWS Batch. 
+    
+    ```json
+    process {
+    resourceLabels = {[
+            uniqueRunId: System.getenv("TOWER_WORKFLOW_ID"),
+            pipelineProcess: task.process.toString(),
+    ...
+    ```
 
----
+    ---
 
 3. Save the file and close the text editor. Feel free to rename the file to something more descriptive of your workflow.
 4. Use these YAML files to add your workflows to the Seqera Platform Launchpad by running the following command:
 
 ```bash
-seqerakit pipelines/*.yml
+seqerakit *.yml
 ```
 
 This will add all pipelines to the Seqera Platform Launchpad and you will be able to see it in the Launchpad UI.

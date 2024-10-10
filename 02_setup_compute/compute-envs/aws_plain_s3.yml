@@ -13,7 +13,7 @@ compute-envs:
     provisioning-model: "SPOT"
     max-cpus: 1000
     allow-buckets: "s3://bucket1,s3://bucket2,s3://bucket3"
-    labels: "plains3,benchmarking"
+    labels: "storage=plains3,project=benchmarking"
     wait: "AVAILABLE"
     overwrite: False
     ebs-blocksize: 150

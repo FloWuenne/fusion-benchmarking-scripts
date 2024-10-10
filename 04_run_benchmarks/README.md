@@ -115,7 +115,7 @@ export NXF_VER=<version of Nextflow>
 We will now launch the custom workflow from the Launchpad using the YAML files we have defined in this repository. From the current directory, run the command below to launch the pipeline with the Fusion V2 compute environment:
 
 ```bash
-$ seqerakit launch/example_workflow_A_fusion.yml
+seqerakit launch/example_workflow_A_fusion.yml
 ```
 
 You should now see the custom workflow being submitted for execution in the Runs page of your Workspace on the Seqera Platform.
@@ -123,18 +123,18 @@ You should now see the custom workflow being submitted for execution in the Runs
 Similarly, you can launch the pipeline with the plain S3 compute environment by running the command below:
 
 ```bash
-$ seqerakit launch/example_workflow_A_plains3.yml
+seqerakit launch/example_workflow_A_plains3.yml
 ```
 
 Note, you can also specify paths to one or more named YAMLs present in the [`/launch`](./launch/) directory too to launch multiple pipelines in a single command:
 
 ```bash
-$ seqerakit launch/example_workflow_A_fusion.yml launch/hello_world_plains3.yml
+seqerakit launch/example_workflow_A_fusion.yml launch/hello_world_plains3.yml
 ```
 Even shorter, you can glob the YAML files to launch multiple pipelines in a single command:
 
 ```bash
-$ seqerakit launch/*.yml
+seqerakit launch/*.yml
 ```
 
 You may have to wait for the pipeline to begin executing and eventually complete. If you observe any failures, you will need to fix these systematically. If you don't, put your feet up and put the kettle on before moving on to the next step to run the benchmarks.

@@ -24,7 +24,7 @@ These YAML files provide best practice configurations for utilizing these two st
 
 ### YAML format description
 
-#### Fusion V2 Compute Environment
+#### 1. Fusion V2 Compute Environment
 
 If we inspect the contents of [`aws_fusion_nvme.yml`](./compute-envs/aws_fusion_nvme.yml) as an example, we can see the overall structure is as follows:
 
@@ -45,7 +45,7 @@ compute-envs:
     instance-types: "c6id,m6id,r6id"
     max-cpus: 1000
     allow-buckets: "s3://bucket1,s3://bucket2,s3://bucket3"
-    labels: "fusionv2,benchmarking"
+    labels: "storage=fusionv2,project=benchmarking"
     wait: "AVAILABLE"
     overwrite: False
 ```
@@ -71,7 +71,7 @@ We've preconfigured a few options for you to ensure your Fusion V2 compute envir
     - This option sets the maximum number of CPUs that will be provisioned in this compute environment. 
 
 
-#### Plain S3 Compute Environment
+#### 2. Plain S3 Compute Environment
 
 Similarly, if we inspect the contents of [`aws_plain_s3.yml`](./compute-envs/aws_plain_s3.yml) as an example, we can see the overall structure is as follows:
 
@@ -92,7 +92,7 @@ ccompute-envs:
     provisioning-model: "SPOT"
     max-cpus: 1000
     allow-buckets: "s3://bucket1,s3://bucket2,s3://bucket3"
-    labels: "plains3,benchmarking"
+    labels: "storage=plains3,project=benchmarking"
     wait: "AVAILABLE"
     overwrite: False
     ebs-blocksize: 150

@@ -19,25 +19,24 @@ Before proceeding with this tutorial, ensure you have the following:
 
 4. Basic familiarity with YAML file format and environment variables
 
-For detailed installation instructions and more information about these prerequisites, please refer to the [Installation Guide](./installation.md).
-
-
 ## Using seqerakit
 
-[Seqera Platform CLI](https://github.com/seqeralabs/tower-cli) is an infrastructure-as-code (IaC) tool which uses configuration files to define what your Seqera platform should look like, which means you are able to reproduce them. We use the YAML format because it is simple and easy to interpret while being flexible enough for this use case. We have provided all relevant YAML files for this tutorial.
+The [Seqera Platform CLI](https://github.com/seqeralabs/tower-cli) is an infrastructure-as-code (IaC) tool that allows you to define and reproduce your Seqera platform using configuration files. By using this approach, you can ensure consistency and scalability. The configuration is written in YAML, a format chosen for its simplicity and readability while remaining flexible enough to meet the needs of this tool. For this tutorial, we've provided all the relevant YAML files.
 
-Under the hood, `seqerakit` is simply exposing the command-line options available within the Seqera Platform CLI to allow you to set these in YAML configuration. You can also invoke and run `seqerakit` via [Python](https://github.com/seqeralabs/seqera-kit#launch-via-a-python-script) but that is out of the scope of this tutorial.
+At its core, `seqerakit` is designed to simplify access to the Seqera Platform CLI by allowing you to set command-line options within YAML configuration files. While you also have the option to launch `seqerakit` via [Python](https://github.com/seqeralabs/seqera-kit#launch-via-a-python-script), this tutorial will focus solely on the YAML-based configuration approach.
 
 ### Dynamic settings
 
-`seqerakit` will evaluate environment variables specified in the YAML files. Using environment variables permits a layer of abstraction when defining the YAML files for settings that might be frequently updated. This means the same YAML file can be re-used in a different context by evaluating the environment variable, for example, in this tutorial, we will use an environment variable called `SEQERA_ORGANIZATION_NAME` that will allow you to specify the name of the organization you are using within your Seqera Platform instance.
+`seqerakit` can evaluate **environment variables** defined within your YAML files. This approach adds a useful layer of flexibility, especially for settings that change often. By using environment variables, you can reuse the same YAML configuration across different contexts without hardcoding values.
 
-You can see this being used in the following example. Here, the pipeline will be launched in the workspace defined as `SEQERA_WORKSPACE_NAME` in the `SEQERA_ORGANIZATION_NAME`.
+For example, in this tutorial, we will use an environment variable called `ORGANIZATION_NAME`. This allows you to easily specify the name of the organization you're using within your Seqera Platform instance, making it adaptable to different setups without modifying the YAML file itself.
+
+You can see this being used in the following example. Here, the pipeline will be launched in the workspace defined as `WORKSPACE_NAME` in the `ORGANIZATION_NAME`.
 
 ```yaml
 launch:
   - name: "nf-hello-world"
-    workspace: "$SEQERA_ORGANIZATION_NAME/$SEQERA_WORKSPACE_NAME"
+    workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"
     pipeline: "nf-hello-world"
 ```
 
@@ -49,17 +48,17 @@ In the next section, we will set the environment variables to your own settings.
 
 All of the environment variables required for this tutorial have been pre-defined in [`env.sh`](env.sh). Edit this file directly and amend any entries labelled as `[CHANGE ME]` to customise them to align with your Seqera Platform instance. The following settings must be set to your target resources:
 
-- `SEQERA_ORGANIZATION_NAME`: Seqera Platform Organization name
-- `SEQERA_WORKSPACE_NAME`: Seqera Platform Workspace name
+- `ORGANIZATION_NAME`: Seqera Platform Organization name
+- `WORKSPACE_NAME`: Seqera Platform Workspace name
 - `COMPUTE_NAME_PREFIX`: A short prefix to be used for naming compute environments. This can be an informative prefix for the credentials/AWS account being used or location of the compute being used (e.g. "biorad-virginia", "benchmark-virginia")
 - `TIME`: Timestamp used by seqerakit to generate dynamic names for launched pipeline runs and their corresponding output directories.
 
 Modify the [`env.sh`](env.sh) file so these variables reflect your settings. Each variable must be exactly the same as your resources or the rest of the tutorial will not work. The final `env.sh` file should look like this.
 
 ```bash
-export SEQERA_ORGANIZATION_NAME=community
-export SEQERA_WORKSPACE_NAME=showcase
-export COMPUTE_ENV_PREFIX=seqera_ireland
+export ORGANIZATION_NAME=biorad
+export WORKSPACE_NAME=benchmarking
+export COMPUTE_ENV_PREFIX=benchmark_virginia
 export TIME=`date +"%Y%m%d-%H%M%S"`
 ```
 
@@ -84,7 +83,7 @@ source ./env.sh
 You can check that the environment variables are available as expected by running:
 
 ```bash
-$ echo $SEQERA_ORGANIZATION_NAME
+echo $ORGANIZATION_NAME
 community
 ```
 
