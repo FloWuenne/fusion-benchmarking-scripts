@@ -150,15 +150,16 @@ To fill in the details for each of the compute environments:
 4. Save the changes to each file.
 5. Use these YAML files to create the compute environments in the Seqera Platform through seqerakit with the following commands.
 
-To create the Fusion V2 compute environment:
-```bash
-seqerakit aws_fusion_nvme.yml
-```
+    To create the Fusion V2 compute environment:
+    ```bash
+    seqerakit aws_fusion_nvme.yml
+    ```
 
-To create the plain S3 compute environment:
-```bash
-seqerakit aws_plain_s3.yml
-```
+    To create the plain S3 compute environment:
+    ```bash
+    seqerakit aws_plain_s3.yml
+    ```
+6. Confirm your Compute Environments have been successfully created in the workspace and show a status of **'AVAILABLE'** indicating they are ready for use.
 
 
 ## Appendix
