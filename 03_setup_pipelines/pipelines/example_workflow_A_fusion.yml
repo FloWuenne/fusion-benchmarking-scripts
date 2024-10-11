@@ -3,7 +3,7 @@ pipelines:
     url: "your_pipeline_url"                          # Required, specify a pipeline URL
     workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"   # Required, specify a workspace
     description: "your_pipeline_description"          # Optional, specify a pipeline description
-    compute-env: "benchmark_aws_fusion_nvme"          # Required, selects for Fusion CE created in earlier step
+    compute-env: "$COMPUTE_ENV_PREFIX_fusion_nvme"    # Required, selects for Fusion CE created in earlier step
     profile: "$PIPELINE_PROFILE"                      # Optional, specify a test profile
     revision: "your_pipeline_revision"                # Required, specify a pipeline revision
     config: "./nextflow.config"                       # Required, specify a config file with process resource labels for costs

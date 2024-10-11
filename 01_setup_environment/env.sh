@@ -1,7 +1,10 @@
-# Workspace and pipeline details
+# Workspace details 
 export ORGANIZATION_NAME=biorad                                                 ## [CHANGE ME] Seqera Platform Organization name
-export WORKSPACE_NAME=benchmarking                                              ## [CHANGE ME] Seqera Platform Workspace name
-export PIPELINE_OUTDIR_PREFIX=s3://seqeralabs-bucket                            ## [CHANGE ME] Pipeline results will be written to a subfolder of this path. You can set it the work directory defined in your Compute Environment
+export WORKSPACE_NAME=benchmarking                                              ## [CHANGE ME] Seqera Platform Workspace name    
+
+# Pipeline details
+export PIPELINE_OUTDIR_PREFIX="s3://output-bucket"                              ## [CHANGE ME] Pipeline results will be written to a subfolder of this path. You can set it the work directory defined in your Compute Environment
+export PIPELINE_PROFILE='test'                                                  ## [OPTIONAL - CHANGE ME] Config profile to run your pipeline with                    
 export TIME=`date +"%Y%m%d-%H%M%S"`
 
 # AWS Compute Environment details

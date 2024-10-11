@@ -1,10 +1,10 @@
 launch:
-  - name: "your_pipeline_name-$TIME-s3"                 # Required, specify a name for your run          
+  - name: "your_pipeline_name-$TIME-s3"                 # Required, specify a name for your run
     pipeline: "your_pipeline_name"                      # Required, name of your pipeline on the Launchpad
     workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"     # Required, specify a workspace
-    compute-env: "benchmark_aws_s3"                     # Required, selects for S3 CE created in earlier step
-    # pre-run: "./pre-run.sh"                           # Optional, specify a pre-run script                
+    compute-env: "$COMPUTE_ENV_PREFIX_plain_s3"         # Required, selects for S3 CE created in earlier step
+    # pre-run: "./pre-run.sh"                           # Optional, specify a pre-run script
     # params-file: "./params.yaml"                      # Optional, specify a pipeline params file
     params:                                             # Optional, specify params inline
-      outdir: 's3://your-bucket/outdir'                 # Optional, specify an output directory inline
-      input: 's3://your-bucket/input/samplesheet.csv'   # Optional, specify an input samplesheet inline
+      outdir: '$PIPELINE_OUTDIR_PREFIX/your_pipeline_name/results'  # Optional, specify an output directory inline
+      input: 's3://your-bucket/input/samplesheet.csv'               # Optional, specify an input samplesheet inline

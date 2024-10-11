@@ -1,5 +1,5 @@
 launch:
   - name: "nf-hello-world-plains3-$TIME"
     workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"
-    compute-env: "aws_plain_s3"
+    compute-env: "$COMPUTE_ENV_PREFIX_plain_s3"
     pipeline: "nf-hello-world-test"
