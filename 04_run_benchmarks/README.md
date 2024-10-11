@@ -172,7 +172,8 @@ seqerakit launch/*.yml
 
 You may have to wait for the pipeline to begin executing and eventually complete. If you observe any failures, you will need to fix these systematically. If you don't, put your feet up and put the kettle on before moving on to the next step to run the benchmarks.
 
-Please ensure that the pipeline completes successfully at least once for both compute environments before moving on to the last part of this tutorial! Any failures could be indicative of issues with your infrastructure which may need to be fixed before running on real-world datasets. If you are having issues troubleshooting failures, please refer to the options in the [Support](./installation.md#support) section.
+Before proceeding to the final part of this tutorial, ensure that the pipeline completes successfully at least once on both compute environments. Any failures may indicate infrastructure issues that should be addressed before attempting to run the pipeline on real-world datasets. For troubleshooting assistance, refer to the options in the [Support](../01_setup_environment/installation.md#support) section.
 
-<!-- TODO fix link when modified -->
-Once you are done, we will move on to the [last part of this tutorial](../06_generate_report/) to pull run metrics from the Seqera Platform and compare the performance of your custom workflow with Fusion V2 and plain S3 compute environments.
+After confirming successful runs, you can move on to the next section, where we will pull run metrics from the Seqera Platform. This will allow you to compare the performance of your custom workflow across the Fusion V2 and plain S3 compute environments.
+
+When you are ready to generate these performance reports, please reach out to your Seqera team for further guidance.

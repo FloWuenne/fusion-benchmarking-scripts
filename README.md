@@ -21,7 +21,7 @@ This tutorial has been split up into 5 main components that you will need to com
 2. [Setup compute environments](02_setup_compute/README.md)
 3. [Setup pipelines for benchmarking](03_setup_pipelines/README.md)
 4. [Run benchmarks](04_run_benchmarks/README.md)
-5. [Generate benchmarking reports](05_generate_reports/README.md)
+5. Generate benchmarking reports: This will be done with the help of the Seqera team.
 
 
 ## Preparation
