@@ -82,5 +82,6 @@ Seqerakit offers simple YAML-based configuration, infrastructure-as-code capabil
 
 If you have further questions, comments or suggestions please don't hesitate to reach out to us by:
 
+- Contacting your AE, [Nate Simon](nate.simon@seqera.io)
 - Creating a ticket on the Seqera customer support portal
 - Contacting us at [support@seqera.io](mailto:support@seqera.io)
