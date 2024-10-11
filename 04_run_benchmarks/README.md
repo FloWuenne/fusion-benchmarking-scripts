@@ -22,7 +22,7 @@ This directory contains YAML configuration files to launch the workflows on the 
 - `hello_world_fusion.yml`: This configuration is to launch the hello world workflow on the Seqera Platform with the Fusion V2 compute environment.
 - `hello_world_plains3.yml`: This configuration is to launch the hello world workflow on the Seqera Platform with the plain S3 compute environment.
 - `example_workflow_A_fusion.yml`: This configuration is to launch the custom workflow on the Seqera Platform with the Fusion V2 compute environment.
-- `example_workflow_B_s3.yml`: This configuration is to launch the custom workflow on the Seqera Platform with the plain S3 compute environment.
+- `example_workflow_B_plains3.yml`: This configuration is to launch the custom workflow on the Seqera Platform with the plain S3 compute environment.
 
 We will launch the hello world workflow from the Launchpad to ensure that the Seqera Platform is working as expected with both the Fusion V2 and plain S3 compute environments before running the benchmarks for the custom workflow.
 
