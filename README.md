@@ -47,7 +47,9 @@ Before starting this tutorial, ensure you have the following prerequisites in pl
    - An S3 bucket for the Nextflow work directory
    - An S3 bucket for saving workflow outputs
    - An S3 bucket containing the input samplesheet (or uploaded to the [workspace as a Dataset](https://docs.seqera.io/platform/24.1/data/datasets))
-   - Split Cost Allocation tracking set up in your AWS account with activated tags (see [this guide](../docs/assets/aws-split-cost-allocation-guide.md))
+   - Split Cost Allocation tracking set up in your AWS account with activated tags (see [this guide](./docs/assets/aws-split-cost-allocation-guide.md))
+
+    **Note**: Ensure that the `taskHash` label has also been activated. The guide was recently amended to include this label to enable retrieval of task costs for each unique hash without relying on the task names themselves.
 
 4. If using private repositories, add your GitHub (or other VCS provider) credentials to the Seqera Platform workspace
 
