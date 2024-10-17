@@ -51,10 +51,45 @@ your_group2,5JpLOZ11kyHTvF.tar.gz
 
 ### Running the benchmark report compilation
 
-Now that we have the logs and samplesheet in place, we can compile the report. We have prepared a docker container that will use [Quarto](https://quarto.org/) with R to compile an interactive benchmark report. To render the report, we need to run the following script:
+Now that we have the logs and samplesheet in place, we can compile the report. We have prepared a docker container that will use [Quarto](https://quarto.org/) with R to compile an interactive benchmark report for you. Let's first pull the docker container from the public seqera harbor registry:
 
 ```bash
-
+docker pull cr.seqera.io/scidev/benchmark-reports:840e45f
 ```
 
-### Understanding the report
+To compile the reports using the docker image, we need to mount a number of directories into the container:
+- The directory containing the samplesheet you created [local_samplesheet_dir]
+- The directory containing the run dumps you created [local_run_dumps_dir]
+- The directory to output the compiled report into [local_output_dir]
+- The directory containing the AWS cost allocation files [local_aws_cost_allocation_dir]
+
+To compile the report, run the following command:
+
+```bash
+export benchmark_report_name="benchmark_report.html"
+docker run \
+-v [local_samplesheet_dir]:/input_dir \
+-v [local_run_dumps_dir]:[local_run_dumps_dir] \
+-v [local_output_dir]:/output \
+-v [local_aws_cost_allocation_dir]:/aws_cost_allocation_files \
+benchmark_reports:latest /bin/bash -c "quarto render e2e_benchmark_report.qmd \
+--profile cost \
+-P "aws_cost:/aws_cost_allocation_files/[your_aws_cost_allocation_files]" \
+-P "log_csv:/input_dir/[your_benchmark_samplesheet]" \
+--output $benchmark_report_name \
+--output-dir /tmp/quarto_output && \
+cp -r /tmp/quarto_output/$benchmark_report_name /output/"
+```
+
+A couple of notes:
+- The `log_csv` parameter is used to provide the path to the log file for a specific run. This is necessary to map the runs to the correct log file.
+- run dumps can either be the original `tar.gz` archives or the already unpacked log folders. 
+- The `aws_cost` parameter is used to provide the path to the AWS cost allocation file. This is necessary to calculate the cost per run.
+- [your_aws_cost_allocation_files] files can either be provided as a single parquet file or a txt file containing one parquet file per row. This can be useful if you have performed benchmarking analysis across different months and use the AWS data exports from each month. The report will then just concatenate the cost data from the different parquet files.
+- The `profile` parameter is used to specify the profile to use. In this case, we are using the `cost` profile which is necessary to calculate the cost per run.
+
+### Interpreting the results
+
+The report will be generated in the directory you specified with the `-v` flags. In this case `[local_output_dir]` on your machine. Open the `benchmark_report.html` file in your browser to see the report.
+
+The benchmark report contains multiple section and goes from high level comparisons down to task level comparisons. There are comments and explanations directly in the report to help you understand what the results mean, but if you have any questions, please reach out to us. We would also highly appreciate a copy of the results to be able to directly discuss the results with you.
