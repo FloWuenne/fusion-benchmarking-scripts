@@ -54,7 +54,7 @@ your_group2,5JpLOZ11kyHTvF.tar.gz
 Now that we have the logs and samplesheet in place, we can compile the report. We have prepared a docker container that will use [Quarto](https://quarto.org/) with R to compile an interactive benchmark report for you. Let's first pull the docker container from the public seqera harbor registry:
 
 ```bash
-docker pull cr.seqera.io/scidev/benchmark-reports:840e45f
+docker pull cr.seqera.io/scidev/benchmark-reports:bb28678
 ```
 
 To compile the reports using the docker image, we need to mount a number of directories into the container:
@@ -72,7 +72,7 @@ docker run \
 -v [local_run_dumps_dir]:[local_run_dumps_dir] \
 -v [local_output_dir]:/output \
 -v [local_aws_cost_allocation_dir]:/aws_cost_allocation_files \
-cr.seqera.io/scidev/benchmark-reports:840e45f /bin/bash -c "quarto render e2e_benchmark_report.qmd \
+cr.seqera.io/scidev/benchmark-reports:bb28678 /bin/bash -c "quarto render e2e_benchmark_report.qmd \
 --profile cost \
 -P "aws_cost:/aws_cost_allocation_files/[your_aws_cost_allocation_files]" \
 -P "log_csv:/input_dir/[your_benchmark_samplesheet]" \
