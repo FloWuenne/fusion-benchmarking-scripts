@@ -72,7 +72,7 @@ docker run \
 -v [local_run_dumps_dir]:[local_run_dumps_dir] \
 -v [local_output_dir]:/output \
 -v [local_aws_cost_allocation_dir]:/aws_cost_allocation_files \
-benchmark_reports:latest /bin/bash -c "quarto render e2e_benchmark_report.qmd \
+cr.seqera.io/scidev/benchmark-reports:840e45f /bin/bash -c "quarto render e2e_benchmark_report.qmd \
 --profile cost \
 -P "aws_cost:/aws_cost_allocation_files/[your_aws_cost_allocation_files]" \
 -P "log_csv:/input_dir/[your_benchmark_samplesheet]" \
