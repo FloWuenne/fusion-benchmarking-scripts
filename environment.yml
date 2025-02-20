@@ -3,6 +3,6 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - bioconda::seqerakit=0.4.8
+  - bioconda::seqerakit=0.5.3
   - conda-forge::jq=1.7
   - conda-forge::coreutils=9.5
