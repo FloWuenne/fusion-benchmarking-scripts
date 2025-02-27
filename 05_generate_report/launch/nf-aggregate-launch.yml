@@ -1,0 +1,4 @@
+launch:
+  - name: 'nf-aggregate-fusion-benchmark-report'
+    workspace:  "$ORGANIZATION_NAME/$WORKSPACE_NAME"
+    pipeline: 'nf-aggregate-fusion-benchmark'

@@ -31,7 +31,7 @@ This directory contains YAML configuration files to add your workflow to the Seq
 
 We can start by adding a simple Hello World pipeline to the Launchpad and then launching this in your chosen Workspace. This will ensure that `seqerakit` is working as expected and you are able to correctly add and launch a pipeline.
 
-### 4. Tutorial: Adding a test pipeline to the Launchpad
+### 3. Tutorial: Adding a test pipeline to the Launchpad
 
 Before we add our custom workflow to the Launchpad, let's start by adding the Hello World pipeline to the Launchpad as defined in [`hello-world.yml`](../seqerakit/pipelines/hello-world.yml).
 
