@@ -14,14 +14,14 @@
 
 ### 1. Prerequisites
 
-- You have successfully completed Nextflow pipeline runs with both Fusion and plain S3.
+- You have successful executions of your Nextflow pipeline(s) with both Fusion and plain S3.
 - You have access to the Seqera Platform workspace with the completed runs.
 - You have access to an AWS cost and usage report (CUR) in parquet format, containing cost information for your benchmarking runs with the resource labels we have set up with you.
 
 ### 2. Overview
-To compile an interactive report comparing your plainS3 and Fusion runs, we will utilize a the [nf-aggregate](https://github.com/seqeralabs/nf-aggregate) pipeline developed by Seqera. This pipeline will fetch the detailed report logs for your runs directly from Seqera Platform using [tw cli](https://github.com/seqeralabs/tower-cli) and generate a report using [Quarto](https://quarto.org/), an open-source publishing system, similar to RMarkdown in R. 
+To compile an interactive report comparing your plainS3 and Fusion runs, we will utilize the [nf-aggregate](https://github.com/seqeralabs/nf-aggregate) pipeline developed by Seqera. This pipeline will fetch the detailed report logs for your runs directly from Seqera Platform using the [tw cli](https://github.com/seqeralabs/tower-cli) and generate a report using [Quarto](https://quarto.org/), an open-source publishing system, similar to RMarkdown in R. 
 
-Since this is a containerized Nextflow pipeline all you have to do is specify a samplesheet with the workflowIDs, the workspaces you performed your runs in and a grouping assignment for each run (plain S3 / Fusion). You can find a template samplesheet with the following content in `nf_aggregate_samplesheet.csv`.
+This containerized Nextflow pipeline requires a samplesheet that includes the workflow IDs, the workspace names where you runs were executed, and the grouping assignment for each run (either 'plain S3' or 'Fusion'). A template for the samplesheet is available in `nf_aggregate_samplesheet.csv`.
 
 ```
 id,workspace,group
@@ -29,7 +29,7 @@ run_id_1,org/workspace,plainS3
 run_id_2,org/workspace,Fusion
 ```
 
-Here is an example from the community/showcase with real run IDs and a real workspace declaration for you to see the final formatting.
+Below is an example from the community/showcase, featuring real workflow IDs and workspace declaration to illustrate the correct formatting.
 
 ```
 id,workspace,group
@@ -42,7 +42,7 @@ You can directly enter your information in `nf_aggregate_samplesheet.csv` and ov
 ### 3. Configuring nf-aggregate
 Now that you have your samplesheet ready we will start the nf-aggregate run using seqerakit, similar to how we executed the benchmarking runs. For the seqerakit scripts in this folder, we assume you are reusing the already configured compute environment (CE) used for the fusion runs.
 
-This directory contains YAML configuration files to add nf-aggregate to your Seqera Platform Launchpad and use your configured samplesheet to start an nf-aggregate run to compile the benchmarking reports:
+This directory contains YAML configuration files to add nf-aggregate to your Seqera Platform Launchpad and use your configured samplesheet as input to nf-aggregate for compiling the benchmarking reports:
 
 - `datasets/nf-aggregate-dataset.yml` : This configuration will add the samplesheet for your benchmark runs as a dataset to Seqera Platform.
 - `pipelines/nf-aggregate-pipeline.yml`: This configuration is to setup the nf-aggregate workflow for compiling benchmark reports from your workflow runs and your AWS cost and usage report (CUR).
@@ -56,9 +56,11 @@ The YAML configurations utilize environment variables defined in the `env.sh` fi
 | `$WORKSPACE_NAME` | Seqera Platform workspace | `workspace` field |
 | `$COMPUTE_ENV_PREFIX` | Prefix for compute environment name | `compute-env` field |
 
-Beside these environment variables, there are a few nextflow parameters that need to be configured based on your setup. Go directly in to `./pipelines/nextflow.config` and modify the following variables:
+In addition to the environment variables, there are a few Nextflow parameters that need to be configured based on your setup. Open `./pipelines/nextflow.config` and modify the following variables:
 
 1) If you are an enterprise customer, please change `seqera_api_endpoint` to your Seqera Platform deployment URL. The person who set up your Enterprise deployment will know this address.
+2) Set `benchmark_aws_cur_report` to the AWS CUR report containing the cost information for your runs. You can provide the direct S3 path to this file if your credentials in Seqera Platform have access to this file. Otherwise, please upload the parquet report to a S3 bucket accessible by the AWS credentials associated with your compute environment.
+> **Note**: If you are using a Seqera Platform Enterprise instance that is secured with a private CA SSL certificate not recognized by default Java certificate authorities, you will need to amend the params section in the [nf-aggregate.yml](../launch/nf-aggregate-launch.yml) file before running the above seqerakit command, to specify a custom cacerts store path through `--java_truststore_path` and optionally, a password with the `--java_truststore_password` pipeline parameters. This certificate will be used to achieve connectivity with your Seqera Platform instance through API and CLI.
 2) Set `benchmark_aws_cur_report` to the AWS CUR report containing your runs cost information. This can be the direct S3 link to this file if your credentials in Seqera Platform have access to this file, otherwise, please upload the parquet report to a bucket accesible by the AWS credentials associated with your compute environment.
 
 ### 4. Launching nf-aggregate via seqerakit
@@ -71,17 +73,13 @@ seqerakit ./pipelines/nf-aggregate-pipeline.yml
 seqerakit ./launch/nf-aggregate-launch.yml
 ```
 
-This will launch nf-aggregate to compile the benchmarking report. Once the pipeline finishes, head to the run page to download the html report.
-
+This will launch nf-aggregate to compile the benchmarking report. Once the pipeline finishes, head to the 'Runs' tab to download the HTML report.
 
 ### 5. Interpreting the results
 
-You can find the `benchmark_report.html` under `Reports` on the run details page. Download it to your machine to investigate it.
+The benchmark report includes various sections, ranging from high-level comparisons to detailed task-level analyses. Each section contains comments and explanations to guide you through the results.
 
-The benchmark report includes various sections, ranging from high-level comparisons to detailed task-level analyses. Each section contains comments and explanations to help you understand the results.
-
-Please share a copy of the report with us so we can discuss the results and walk you through the details.
-
+Upon completion, please share a copy of the report with the Seqera team to discuss the findings and walk you through the details.
 
 To learn more about each section of the report, see the [Appendix](#report-sections).
 
@@ -98,6 +96,14 @@ This section provides a general overview of the pipeline run IDs used in the rep
 <details>
 <summary>Run overview</summary>
 This section contains detailed information about the runs included in the report. It features a sortable and filterable table with technical details such as version numbers for pipelines and Nextflow, as well as information about the compute environment setup. Below the table, bar plots provide a visual comparison of key performance characteristics at the pipeline level.
+
+- **Accurate compute cost**: The total expense incurred by Nextflow tasks for AWS elastic compute instances (EC2) consumed during workflow execution, including both actively used and idle but allocated resources, retrieved from the AWS cost and usage report. This does not include cost for the Nextflow head job or any costs other than EC2 (S3 transfer costs, VPC costs, FSx costs etc.).
+- **Accurate used cost**: The cost of vCPU and memory resources that were actually allocated to and consumed by Amazon ECS tasks during the workflow execution period.
+- **Accurate unused cost**: The cost of vCPU and memory resources that were allocated to EC2 instances but remained unutilized by ECS tasks during the workflow execution period. This represents capacity that was reserved and paid for but was not used.
+- **Total run time**: The cumulative execution duration across all Nextflow tasks used in the workflow, calculated by summing the run time of all individual tasks.
+- **CPU efficiency**: The percentage of allocated CPU resources that were actively utilized during task execution, calculated as (CPU time consumed / CPU time allocated) × 100%. Higher percentages indicate better utilization of provisioned CPU capacity.
+- **Memory efficiency**: The percentage of allocated memory that was actively used during task execution, calculated as (memory consumed / memory allocated) × 100%. Higher percentages indicate better utilization of provisioned memory resources.
+
 </details>
 <br>
 
