@@ -2,3 +2,5 @@ launch:
   - name: 'nf-aggregate-fusion-benchmark-report'
     workspace:  "$ORGANIZATION_NAME/$WORKSPACE_NAME"
     pipeline: 'nf-aggregate-fusion-benchmark'
+    params:
+      outdir: '$PIPELINE_OUTDIR_PREFIX/nf-aggregate-fusion-benchmark/results'
