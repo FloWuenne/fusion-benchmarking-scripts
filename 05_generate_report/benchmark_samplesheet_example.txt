@@ -1,3 +1,0 @@
-group,file_path
-your_group1,1jpDXMZEGp5XYx.tar.gz
-your_group2,5JpLOZ11kyHTvF.tar.gz
