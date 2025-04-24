@@ -4,6 +4,7 @@ This directory contains YAML configuration files for the creation of two compute
 
 - `aws_fusion_nvme.yml`: This compute environment is designed to run on Amazon Web Services (AWS) Batch and uses Fusion V2 with the 6th generation intel instance type with NVMe storage.
 - `aws_plain_s3.yml`: This compute environment is designed to run on Amazon Web Services (AWS) Batch and uses the plain AWS Batch with S3 storage.
+- `aws_fusion_snapshots.yml` _(optional)_: This compute environment is designed to run on Amazon Web Services (AWS) Batch and uses Fusion with the experimental snapshot feature.
 
 These YAML files provide best practice configurations for utilizing these two storage types in AWS Batch compute environments. The Fusion V2 configuration is tailored for high-performance workloads leveraging NVMe storage, while the plain S3 configuration offers a standard setup for comparison and workflows that don't require the advanced features of Fusion V2.
 
@@ -135,6 +136,55 @@ We've pre-configured several options to optimize your plain S3 compute environme
 | `ebs-blocksize` | `150` | Sets the initial EBS block size to 150 GB, providing additional storage for compute instances |
 
 These options ensure your plain S3 compute environment is optimized for performance and cost-effectiveness, providing a baseline for comparison with Fusion V2 performance.
+
+#### 3. Fusion Snapshots Compute Environment
+
+!!! warning
+    Fusion snapshots is an experimental feature
+
+Fusion snapshots is a new feature in Fusion that allows you to snapshot and restore your machine when a spot interruption occurs. If we inspect the contents of [`aws_fusion_snapshots.yml`](./compute-envs/aws_fusion_snapshots.yml) as an example, we can see the overall structure is as follows:
+
+```YAML
+compute-envs:
+  - type: aws-batch
+    config-mode: forge
+    name: "$COMPUTE_ENV_PREFIX_fusion_snapshots"
+    workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"
+    credentials: "$AWS_CREDENTIALS"
+    region: "$AWS_REGION"
+    work-dir: "$AWS_WORK_DIR"
+    wave: True
+    fusion-v2: True
+    fast-storage: True
+    no-ebs-auto-scale: True
+    provisioning-model: "SPOT"
+    instance-types: "c6id.4xlarge,c6id.8xlarge,r6id.2xlarge,m6id.4xlarge,c6id.12xlarge,r6id.4xlarge,m6id.8xlarge"
+    max-cpus: 1000
+    allow-buckets: "$AWS_COMPUTE_ENV_ALLOWED_BUCKETS"
+    labels: storage=fusionv2,project=benchmarking"
+    wait: "AVAILABLE"
+    overwrite: False
+```
+
+You should note it is very similar to the Fusion V2 compute environment, but with the following differences:
+
+- `instance-types` are set to a very restrictive set of types that have sufficient memory and bandwidth to snapshot the machine within the time limit imposed by AWS during a spot reclamation event.
+
+#### Pre-configured Options in the YAML
+
+We've pre-configured several options to optimize your Fusion V2 compute environment:
+
+| Option | Value | Purpose |
+|--------|-------|---------|
+| `wave` | `True` | Enables Wave, required for Fusion in containerized workloads |
+| `fusion-v2` | `True` | Enables Fusion V2 |
+| `fast-storage` | `True` | Enables fast instance storage with Fusion v2 for optimal performance |
+| `no-ebs-auto-scale` | `True` | Disables EBS auto-expandable disks (incompatible with Fusion V2) |
+| `provisioning-model` | `"SPOT"` | Selects cost-effective spot pricing model |
+| `instance-types` | `"c6id.4xlarge,c6id.8xlarge,r6id.2xlarge,m6id.4xlarge,c6id.12xlarge,r6id.4xlarge,m6id.8xlarge"` | Selects instance types with a small enough memory footprint and fast enough network to snapshot the machine within the time limit imposed by AWS during a spot reclamation event. |
+| `max-cpus` | `1000` | Sets maximum number of CPUs for this compute environment |
+
+These options ensure your Fusion V2 compute environment is optimized for compatibility with the snapshot feature.
 
 ### Usage
 

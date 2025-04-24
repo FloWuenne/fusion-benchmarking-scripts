@@ -1,5 +1,5 @@
 launch:
-  - name: "your_pipeline_name-$TIME-fusion"             # Required, specify a name for your run          
+  - name: "your_pipeline_name-$TIME-fusion-snapshot"             # Required, specify a name for your run          
     pipeline: "your_pipeline_name"                      # Required, name of your pipeline on the Launchpad
     workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"     # Required, specify a workspace
     compute-env: "$COMPUTE_ENV_PREFIX_fusion_snapshots" # Required, selects for Fusion CE created in earlier step

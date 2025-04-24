@@ -21,8 +21,10 @@ This directory contains YAML configuration files to launch the workflows on the 
 
 - `hello_world_fusion.yml`: This configuration is to launch the hello world workflow on the Seqera Platform with the Fusion V2 compute environment.
 - `hello_world_plains3.yml`: This configuration is to launch the hello world workflow on the Seqera Platform with the plain S3 compute environment.
+- `hello_world_fusion_snapshot.yml`: This configuration is to launch the hello world workflow on the Seqera Platform with the Fusion snapshot compute environment.
 - `example_workflow_A_fusion.yml`: This configuration is to launch the custom workflow on the Seqera Platform with the Fusion V2 compute environment.
 - `example_workflow_B_plains3.yml`: This configuration is to launch the custom workflow on the Seqera Platform with the plain S3 compute environment.
+- `example_workflow_A_fusion_snapshots.yml`: This configuration is to launch the custom workflow on the Seqera Platform with the Fusion snapshot compute environment.
 
 We will launch the hello world workflow from the Launchpad to ensure that the Seqera Platform is working as expected with both the Fusion V2 and plain S3 compute environments before running the benchmarks for the custom workflow.
 
@@ -41,6 +43,7 @@ seqerakit ./launch/hello_world*.yml
 ```shell
 DEBUG:root: Running command: tw launch nf-hello-world-fusion-$TIME --name nf-hello-world-test --workspace $ORGANIZATION_NAME/$WORKSPACE_NAME
 DEBUG:root: Running command: tw launch nf-hello-world-plains3-$TIME --name nf-hello-world-test --workspace $ORGANIZATION_NAME/$WORKSPACE_NAME
+DEBUG:root: Running command: tw launch nf-hello-world-fusion-snapshot-$TIME --name nf-hello-world-test --workspace $ORGANIZATION_NAME/$WORKSPACE_NAME
 ```
 
 When you check the running pipelines tab of your Seqera Platform workspace, you should now see the Hello World pipelines being submitted for execution.
@@ -164,6 +167,7 @@ Note, you can also specify paths to one or more named YAMLs present in the [`/la
 ```bash
 seqerakit launch/example_workflow_A_fusion.yml launch/hello_world_plains3.yml
 ```
+
 Even shorter, you can glob the YAML files to launch multiple pipelines in a single command:
 
 ```bash
