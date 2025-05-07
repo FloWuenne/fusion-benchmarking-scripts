@@ -18,7 +18,7 @@ This guide will give you a direct comparison between a compute environment with 
 
 #### 1. Environment Variables in the YAML
 
-The YAML configurations utilize environment variables defined in the `env.sh` file. Here's a breakdown:
+The YAML configurations utilize environment variables defined in the [`env.sh`](./setup/env.sh) file. Here's a breakdown:
 
 | Variable | Description | Usage in YAML |
 |----------|-------------|---------------|
@@ -34,13 +34,13 @@ Using these variables allows easy customization of the compute environment confi
 
 #### 2. Fusion V2 Compute Environment
 
-If we inspect the contents of [`aws_fusion_nvme.yml`](./compute-envs/aws_fusion_nvme.yml) as an example, we can see the overall structure is as follows:
+If we inspect the contents of [`./compute-envs/aws_fusion_ondemand.yml`](./compute-envs/aws_fusion_ondemand.yml) as an example, we can see the overall structure is as follows:
 
 ```yaml
 compute-envs:
   - type: aws-batch
     config-mode: forge
-    name: "$COMPUTE_ENV_PREFIX_fusion_nvme"
+    name: "${COMPUTE_ENV_PREFIX}_fusion_ondemand"
     workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"
     credentials: "$AWS_CREDENTIALS"
     region: "$AWS_REGION"
@@ -66,16 +66,13 @@ The top-level block `compute-envs` mirrors the `tw compute-envs` command. The `t
 
 #### 3. Fusion Snapshots Compute Environment
 
-!!! warning
-    Fusion snapshots is an experimental feature
-
-Fusion snapshots is a new feature in Fusion that allows you to snapshot and restore your machine when a spot interruption occurs. If we inspect the contents of [`aws_fusion_snapshots.yml`](./compute-envs/aws_fusion_snapshots.yml) as an example, we can see the overall structure is as follows:
+Fusion snapshots is a new feature in Fusion that allows you to snapshot and restore your machine when a spot interruption occurs. If we inspect the contents of [`./compute-envs/aws_fusion_snapshots.yml`](./compute-envs/aws_fusion_snapshots.yml) as an example, we can see the overall structure is as follows:
 
 ```YAML
 compute-envs:
   - type: aws-batch
     config-mode: forge
-    name: "$COMPUTE_ENV_PREFIX_fusion_snapshots"
+    name: "${COMPUTE_ENV_PREFIX}_fusion_snapshots"
     workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"
     credentials: "$AWS_CREDENTIALS"
     region: "$AWS_REGION"
@@ -95,11 +92,12 @@ compute-envs:
 
 You should note it is very similar to the Fusion V2 compute environment, but with the following differences:
 
+- `provisioning-model` is set to `SPOT` to enable the use of spot instances.
 - `instance-types` are set to a very restrictive set of types that have sufficient memory and bandwidth to snapshot the machine within the time limit imposed by AWS during a spot reclamation event.
 
 #### Pre-configured Options in the YAML
 
-We've pre-configured several options to optimize your Fusion V2 compute environment:
+We've pre-configured several options to optimize your Fusion snapshots compute environment:
 
 | Option | Value | Purpose |
 |--------|-------|---------|
@@ -165,3 +163,7 @@ To add networking details to your compute environment:
 **Note**: The values for your subnets, vpc-id and security groups must be a comma-separated string as shown above.
 
 2. Save your file and create your Compute Environments.
+
+## Next Steps
+
+Once this is completed, proceed to the [02_setup_pipelines](./02_setup_pipelines.md) section to setup your pipelines.

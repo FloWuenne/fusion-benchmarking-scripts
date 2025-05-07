@@ -78,7 +78,7 @@ launch:
   - name: "your_pipeline_name-$TIME-fusion-ondemand"
     pipeline: "your_pipeline_name"
     workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"
-    compute-env: "$COMPUTE_ENV_PREFIX_fusion_ondemand"
+    compute-env: "${COMPUTE_ENV_PREFIX}_fusion_ondemand"
     params:
       outdir: '$PIPELINE_OUTDIR_PREFIX/your_pipeline_name/results'
       input: 's3://your-bucket/input/samplesheet.csv'

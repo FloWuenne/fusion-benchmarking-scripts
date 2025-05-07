@@ -60,7 +60,7 @@ pipelines:
     url: "https://github.com/nextflow-io/hello"
     workspace: '$ORGANIZATION_NAME/$WORKSPACE_NAME'
     description: "Classic Hello World script in Nextflow language."
-    compute-env: "$COMPUTE_ENV_PREFIX_fusion_ondemand"
+    compute-env: "${COMPUTE_ENV_PREFIX}_fusion_ondemand"
     revision: "master"
     overwrite: True
 ```
@@ -96,7 +96,7 @@ This indicates seqerakit is interpreting the YAML file and is able to run some c
 We will now add the pipeline to the Launchpad by removing the `--dryrun` option from the command-line:
 
 ```bash
-seqerakit ./pipelines/hello_world_fusion_ondemand.yml
+seqerakit ./pipelines/hello_world.yml
 ```
 Output will be like:
 
@@ -111,7 +111,7 @@ Go to the Launchpad page on your workspace on Seqera platform. You should see th
 
 ![Hello World added to Launchpad](../docs/images/hello-world-pipelines-add.png)
 
-### 4. Add your workflow to the Launchpad
+### 4. Add your own workflow to the Launchpad
 
 Add your workflow to the Launchpad by following these steps:
 
@@ -148,7 +148,11 @@ Add your workflow to the Launchpad by following these steps:
 4. Use these YAML files to add your workflows to the Seqera Platform Launchpad by running the following command:
 
 ```bash
-seqerakit *.yml
+seqerakit pipelines/example_workflow_A_*.yml
 ```
 
 This will add all pipelines to the Seqera Platform Launchpad and you will be able to see it in the Launchpad UI. Confirm your pipelines have been added to the Launchpad before moving onto the next step of launching them.
+
+## Next Steps
+
+Once this is completed, proceed to the [03_launch](./03_launch.md) section to launch your workflows.

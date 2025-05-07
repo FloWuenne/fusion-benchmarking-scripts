@@ -2,7 +2,7 @@ launch:
   - name: "your_pipeline_name-$TIME-fusion"           # Required, specify a name for your run          
     pipeline: "your_pipeline_name"                    # Required, name of your pipeline on the Launchpad
     workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"   # Required, specify a workspace
-    compute-env: "$COMPUTE_ENV_PREFIX_fusion_ondemand"    # Required, selects for Fusion CE created in earlier step
+    compute-env: "${COMPUTE_ENV_PREFIX}_fusion_ondemand"    # Required, selects for Fusion CE created in earlier step
     # pre-run: "./pre-run.sh"                         # Optional, specify a pre-run script                
     # params-file: "./params.yaml"                    # Optional, specify a pipeline params file
     params:                                           # Optional, specify params inline
