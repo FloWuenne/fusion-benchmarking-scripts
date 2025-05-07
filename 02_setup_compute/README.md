@@ -4,7 +4,6 @@ This directory contains YAML configuration files for the creation of two compute
 
 - `aws_fusion_nvme.yml`: This compute environment is designed to run on Amazon Web Services (AWS) Batch and uses Fusion V2 with the 6th generation intel instance type with NVMe storage.
 - `aws_plain_s3.yml`: This compute environment is designed to run on Amazon Web Services (AWS) Batch and uses the plain AWS Batch with S3 storage.
-- `aws_fusion_snapshots.yml` _(optional)_: This compute environment is designed to run on Amazon Web Services (AWS) Batch and uses Fusion with the experimental snapshot feature.
 
 These YAML files provide best practice configurations for utilizing these two storage types in AWS Batch compute environments. The Fusion V2 configuration is tailored for high-performance workloads leveraging NVMe storage, while the plain S3 configuration offers a standard setup for comparison and workflows that don't require the advanced features of Fusion V2.
 
