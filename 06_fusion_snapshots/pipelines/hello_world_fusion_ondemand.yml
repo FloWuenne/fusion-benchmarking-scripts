@@ -1,0 +1,5 @@
+launch:
+  - name: "nf-hello-world-fusion-ondemand-$TIME"
+    workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"
+    compute-env: "$COMPUTE_ENV_PREFIX_fusion_ondemand"
+    pipeline: "nf-hello-world-test"
