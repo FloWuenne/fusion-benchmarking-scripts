@@ -10,7 +10,7 @@
 
 ### 1. Prerequisites
 
-- You have setup a Fusion V2 and plain S3 compute environment in the Seqera Platform in the [previous section](../02_setup_compute/README.md).
+- You have setup a Fusion on-demand and Fusion Snapshot compute environment in the Seqera Platform in the [previous section](../02_setup_compute/README.md).
 - You have created an S3 bucket for saving the workflow outputs.
 - You have created an S3 bucket containing the input samplesheet for the workflow or have uploaded the samplesheet to the [workspace as a Dataset](https://docs.seqera.io/platform/24.1/data/datasets).
 - You have setup your custom and hello world workflows on the Launchpad as described in the [previous section](../03_setup_pipelines/README.md).

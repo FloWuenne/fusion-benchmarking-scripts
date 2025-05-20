@@ -49,7 +49,7 @@ compute-envs:
     fusion-v2: True
     fast-storage: True
     no-ebs-auto-scale: True
-    provisioning-model: "SPOT"
+    provisioning-model: "EC2"
     instance-types: "c6id,m6id,r6id"
     max-cpus: 1000
     allow-buckets: "$AWS_COMPUTE_ENV_ALLOWED_BUCKETS"

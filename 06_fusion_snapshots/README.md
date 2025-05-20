@@ -1,4 +1,4 @@
-e# Fusion Snapshot Benchmarking
+# Fusion Snapshot Benchmarking
 
 ## Introduction
 
