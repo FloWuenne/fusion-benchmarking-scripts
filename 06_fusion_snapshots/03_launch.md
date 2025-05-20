@@ -132,10 +132,15 @@ You can specify local paths to customize your pipeline execution:
 
 These files are provided as empty placeholders in the repository:
 
+<details>
+<summary>Click to expand: Additional configuration options and pre-run script</summary>
+
 - They allow you to override specific options during benchmarking
 - The options are commented out in the provided YAML files
 - You can uncomment and use them as needed
 - See the [Pipeline Configuration]() and [Pre-run Script]() section for more details
+
+</details>
 
 ### 3. Launching the custom workflow
 
