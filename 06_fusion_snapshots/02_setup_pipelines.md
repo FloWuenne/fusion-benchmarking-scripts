@@ -71,7 +71,7 @@ pipelines:
 The YAML file begins with a block starting with the key `pipelines` which mirrors the command available on the Seqera Platform CLI to add pipelines to the Launchpad i.e. `tw pipelines add`. To give you another example, if you would like to create a Compute Environment in the Seqera Platform, you would use the `tw add compute-envs` command and hence the `compute-envs` key in your YAML file, and so on.
 
 The nested options in the YAML also correspond to options available for that particular command on the Seqera Platform CLI. For example, if you run `tw pipelines add --help` you will see that `--name`, `--workspace`, `--description`, `--compute-env` and `--revision` are available as options, and will be provided to the `tw launch` command as defined in this YAML via `seqerakit`. However, other options defined in the YAML such as `url` and `overwrite` have been added specifically to extend the functionality in `seqerakit`.
-<details>
+</details>
 
 #### 3. Dry run mode
 
