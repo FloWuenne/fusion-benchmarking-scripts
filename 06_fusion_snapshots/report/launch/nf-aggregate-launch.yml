@@ -1,0 +1,6 @@
+launch:
+  - name: 'nf-aggregate-fusion-snapshots-benchmark-report'
+    workspace:  "$ORGANIZATION_NAME/$WORKSPACE_NAME"
+    pipeline: 'nf-aggregate-fusion-snapshots-benchmark'
+    params:
+      outdir: '$PIPELINE_OUTDIR_PREFIX/nf-aggregate-fusion-snapshots-benchmark/results'

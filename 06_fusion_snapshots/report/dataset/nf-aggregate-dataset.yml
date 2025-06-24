@@ -1,0 +1,7 @@
+datasets:
+  - name: 'fusion-snapshots-benchmark-samplesheet'
+    description: 'Samplesheet with run information to compile Fusion snapshots benchmarking report.'
+    header: true
+    workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"
+    file-path: './nf_aggregate_samplesheet.csv'
+    overwrite: True

@@ -10,7 +10,7 @@
 
 ### 1. Prerequisites
 
-- You have setup a Fusion V2 and plain S3 compute environment in the Seqera Platform in the [previous section](../02_setup_compute/README.md).
+- You have setup a Fusion on-demand and Fusion Snapshot compute environment in the Seqera Platform in the [previous section](../02_setup_compute/README.md).
 - You have created an S3 bucket for saving the workflow outputs.
 - You have created an S3 bucket containing the input samplesheet for the workflow or have uploaded the samplesheet to the [workspace as a Dataset](https://docs.seqera.io/platform/24.1/data/datasets).
 - You have setup your custom and hello world workflows on the Launchpad as described in the [previous section](../03_setup_pipelines/README.md).
@@ -19,16 +19,14 @@
 
 This directory contains YAML configuration files to launch the workflows on the Seqera Platform:
 
-- `hello_world_fusion.yml`: This configuration is to launch the hello world workflow on the Seqera Platform with the Fusion V2 compute environment.
-- `hello_world_plains3.yml`: This configuration is to launch the hello world workflow on the Seqera Platform with the plain S3 compute environment.
-- `example_workflow_A_fusion.yml`: This configuration is to launch the custom workflow on the Seqera Platform with the Fusion V2 compute environment.
-- `example_workflow_B_plains3.yml`: This configuration is to launch the custom workflow on the Seqera Platform with the plain S3 compute environment.
+- `example_workflow_A_fusion_snapshots.yml`: This configuration is to launch the custom workflow on the Seqera Platform with the Fusion snapshot compute environment.
+- `example_workflow_A_fusion_ondemand.yml`: This configuration is to launch the custom workflow on the Seqera Platform with the Fusion on-demand compute environment.
 
-We will launch the hello world workflow from the Launchpad to ensure that the Seqera Platform is working as expected with both the Fusion V2 and plain S3 compute environments before running the benchmarks for the custom workflow.
+We will launch the hello world workflow from the Launchpad to ensure that the Seqera Platform is working as expected with both the Fusion snapshot and on-demand compute environments before running the benchmarks for the custom workflow.
 
 ## 3. Launching hello workflow from the Launchpad
 
-We have provided separate YAML files [`hello_world_fusion.yml`](../04_run_benchmarks/launch/hello-world-fusion.yml) and [`hello_world_plains3.yml`](../04_run_benchmarks/launch/hello-world-plains3.yml) that contain the appropriate configuration to launch the Hello World pipeline we just added to the Launchpad.
+We have provided separate YAML files [`hello_world_fusion_ondemand.yml`](../launch/hello_world_fusion_ondemand.yml) and [`hello_world_fusion_snapshots.yml`](../launch/hello_world_fusion_snapshots.yml) that contain the appropriate configuration to launch the Hello World pipeline we just added to the Launchpad.
 
 Theses YAML files will append the date through the `$TIME` variable set in `env.sh`.  onto the run names. This can help with better organizing your benchmarking runs, especially if you launch multiple iterations.
 
@@ -39,23 +37,19 @@ seqerakit ./launch/hello_world*.yml
 ```
 
 ```shell
-DEBUG:root: Running command: tw launch nf-hello-world-fusion-$TIME --name nf-hello-world-test --workspace $ORGANIZATION_NAME/$WORKSPACE_NAME
-DEBUG:root: Running command: tw launch nf-hello-world-plains3-$TIME --name nf-hello-world-test --workspace $ORGANIZATION_NAME/$WORKSPACE_NAME
+DEBUG:root: Running command: tw launch nf-hello-world-fusion-ondemand-$TIME --name nf-hello-world-test --workspace $ORGANIZATION_NAME/$WORKSPACE_NAME
+DEBUG:root: Running command: tw launch nf-hello-world-fusion-snapshots-$TIME --name nf-hello-world-test --workspace $ORGANIZATION_NAME/$WORKSPACE_NAME
 ```
 
 When you check the running pipelines tab of your Seqera Platform workspace, you should now see the Hello World pipelines being submitted for execution.
-
-
-![Hello World launch](../docs/images/hello-world-pipelines-launch.png) 
-
 
 You may have to wait for the pipeline to begin executing and eventually complete. If you observe any failures, you will need to fix these systematically. If you don't, put your feet up and put the kettle on before moving on to the next step to run the benchmarks.
 
 ## 4. Run benchmarks for the custom workflow
 
-Now that we have verified that the Seqera Platform is working as expected with both the Fusion V2 and plain S3 compute environments, we can run the benchmarks for the custom workflow.
+Now that we have verified that the Seqera Platform is working as expected with both the Fusion on-demand and Fusion snapshots compute environments, we can run the benchmarks for the custom workflow.
 
-We will use the same workflow configuration files that we used in the [previous section](../03_setup_pipelines/README.md).
+We will use the same workflow configuration files that we used in the [previous section](./02_setup_pipelines.md).
 
 ### YAML format description
 
@@ -73,7 +67,7 @@ The YAML configurations utilize environment variables defined in the `env.sh` fi
 
 Using these variables allows easy customization of the launch configuration without directly modifying the YAML file, promoting flexibility and reusability across different environments and runs.
 
-If we inspect the contents of [`launch/example_workflow_A_fusion.yml`](../04_run_benchmarks/launch/example_workflow_A_fusion.yml) as an example, we can see the overall structure is the same as what we used when adding pipelines.
+If we inspect the contents of [`launch/example_workflow_A_fusion_ondemand.yml`](../launch/example_workflow_A_fusion_ondemand.yml) as an example, we can see the overall structure is the same as what we used when adding pipelines.
 
 #### 2. Pipeline YAML definition
 
@@ -81,10 +75,10 @@ The YAML file for launching a pipeline follows a specific structure. Let's exami
 
 ```yaml
 launch:
-  - name: "your_pipeline_name-$TIME-fusion"
+  - name: "your_pipeline_name-$TIME-fusion-ondemand"
     pipeline: "your_pipeline_name"
     workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"
-    compute-env: "$COMPUTE_ENV_PREFIX_fusion_nvme"
+    compute-env: "${COMPUTE_ENV_PREFIX}_fusion_ondemand"
     params:
       outdir: '$PIPELINE_OUTDIR_PREFIX/your_pipeline_name/results'
       input: 's3://your-bucket/input/samplesheet.csv'
@@ -102,7 +96,7 @@ The nested options in the YAML also correspond to options available for that par
 #### Run Names and Parameters
 
 ##### Run Names
-- Run names are appended with datetime and storage type (e.g., fusion, plains3)
+- Run names are appended with datetime and storage type (e.g., fusion-ondemand, fusion-snapshots)
 - This naming convention helps organize your runs
 - Feel free to modify or add more information to run names as needed
 
@@ -138,31 +132,36 @@ You can specify local paths to customize your pipeline execution:
 
 These files are provided as empty placeholders in the repository:
 
+<details>
+<summary>Click to expand: Additional configuration options and pre-run script</summary>
+
 - They allow you to override specific options during benchmarking
 - The options are commented out in the provided YAML files
 - You can uncomment and use them as needed
 - See the [Pipeline Configuration]() and [Pre-run Script]() section for more details
+
+</details>
 
 ### 3. Launching the custom workflow
 
 We will now launch the custom workflow from the Launchpad using the YAML files we have defined in this repository. From the current directory, run the command below to launch the pipeline with the Fusion V2 compute environment:
 
 ```bash
-seqerakit launch/example_workflow_A_fusion.yml
+seqerakit launch/example_workflow_A_fusion_ondemand.yml
 ```
 
 You should now see the custom workflow being submitted for execution in the Runs page of your Workspace on the Seqera Platform.
 
-Similarly, you can launch the pipeline with the plain S3 compute environment by running the command below:
+Similarly, you can launch the pipeline with the Fusion snapshots compute environment by running the command below:
 
 ```bash
-seqerakit launch/example_workflow_A_plains3.yml
+seqerakit launch/example_workflow_A_fusion_snapshots.yml
 ```
 
 Note, you can also specify paths to one or more named YAMLs present in the [`/launch`](./launch/) directory too to launch multiple pipelines in a single command:
 
 ```bash
-seqerakit launch/example_workflow_A_fusion.yml launch/hello_world_plains3.yml
+seqerakit launch/example_workflow_A_fusion_ondemand.yml launch/example_workflow_A_fusion_snapshots.yml
 ```
 
 Even shorter, you can glob the YAML files to launch multiple pipelines in a single command:
@@ -175,6 +174,6 @@ You may have to wait for the pipeline to begin executing and eventually complete
 
 Before proceeding to the final part of this tutorial, ensure that the pipeline completes successfully at least once on both compute environments. Any failures may indicate infrastructure issues that should be addressed before attempting to run the pipeline on real-world datasets. For troubleshooting assistance, refer to the options in the [Support](../01_setup_environment/installation.md#support) section.
 
-After confirming successful runs, you can move on to the next section, where we will pull run metrics from the Seqera Platform. This will allow you to compare the performance of your custom workflow across the Fusion V2 and plain S3 compute environments.
+After confirming successful runs, you can move on to the next section, where we will pull run metrics from the Seqera Platform. This will allow you to compare the performance of your custom workflow across the Fusion on-demand and Fusion snapshots compute environments.
 
 When you are ready to generate these performance reports, please reach out to your Seqera team for further guidance.

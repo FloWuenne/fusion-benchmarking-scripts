@@ -1,0 +1,19 @@
+compute-envs:
+  - type: aws-batch
+    config-mode: forge
+    name: "${COMPUTE_ENV_PREFIX}_fusion_snapshots"
+    workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"
+    credentials: "$AWS_CREDENTIALS"
+    region: "$AWS_REGION"
+    work-dir: "$AWS_WORK_DIR"
+    wave: True
+    fusion-v2: True
+    fast-storage: True
+    no-ebs-auto-scale: True
+    provisioning-model: "SPOT"
+    instance-types: "c6id.4xlarge,c6id.8xlarge,r6id.2xlarge,m6id.4xlarge,c6id.12xlarge,r6id.4xlarge,m6id.8xlarge"
+    max-cpus: 1000
+    allow-buckets: "$AWS_COMPUTE_ENV_ALLOWED_BUCKETS"
+    labels: storage=fusionv2,project=benchmarking
+    wait: "AVAILABLE"
+    overwrite: False
