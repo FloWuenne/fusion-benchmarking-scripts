@@ -39,7 +39,7 @@ seqerakit ./launch/nf-core-demo*.yml
 ```
 
 ```shell
-INFO:root: Running command: tw launch --name nf-core-demo-fusion-$TIME --workspace $ORGANIZATION_NAME/$WORKSPACE_NAME --compute-env ${COMPUTE_ENV_PREFIX}_fusion_nvme nf-core-demo-test
+INFO:root: Running command: tw launch --name nf-core-demo-fusion-$TIME --workspace $ORGANIZATION_NAME/$WORKSPACE_NAME --compute-env ${COMPUTE_ENV_PREFIX}_fusion_nvme nf-core-demo-1.0.2
 INFO:root: Running command: tw launch --name nf-core-demo-plains3-$TIME --workspace $ORGANIZATION_NAME/$WORKSPACE_NAME --compute-env ${COMPUTE_ENV_PREFIX}_plain_s3 nf-core-demo-test
 ```
 
