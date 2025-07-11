@@ -13,9 +13,11 @@ Before proceeding with this tutorial, ensure you have the following:
 
 2. Software dependencies installed as outlined in the [installation documentation](./installation.md):
    - [`seqerakit >=0.4.3`](https://github.com/seqeralabs/seqera-kit#installation)
-   - [Seqera Platform CLI (`>=0.9.0`)](https://github.com/seqeralabs/tower-cli#1-installation)
+   - [Seqera Platform CLI (`>=0.13.0`)](https://github.com/seqeralabs/tower-cli#1-installation)
    - [Python (`>=3.8`)](https://www.python.org/downloads/)
    - [PyYAML](https://pypi.org/project/PyYAML/)
+
+   **Note** The Seqera Platform CLI version required for Fusion Snapshots.
 
 4. Basic familiarity with YAML file format and environment variables
 

@@ -80,6 +80,7 @@ compute-envs:
     wave: True
     fusion-v2: True
     fast-storage: True
+    snapshots: True
     no-ebs-auto-scale: True
     provisioning-model: "SPOT"
     instance-types: "c6id.4xlarge,c6id.8xlarge,r6id.2xlarge,m6id.4xlarge,c6id.12xlarge,r6id.4xlarge,m6id.8xlarge"
@@ -93,7 +94,10 @@ compute-envs:
 You should note it is very similar to the Fusion V2 compute environment, but with the following differences:
 
 - `provisioning-model` is set to `SPOT` to enable the use of spot instances.
+- `snapshots` is set to True to allow Fusion to automatically restore a job if interrupted by spot reclamation
 - `instance-types` are set to a very restrictive set of types that have sufficient memory and bandwidth to snapshot the machine within the time limit imposed by AWS during a spot reclamation event.
+
+Note: When setting `snapshots: True`, Fusion, Wave and fast-instance storage will be enabled by default for the CE. We have set these to `true` here for documentation purposes and consistency.
 
 #### Pre-configured Options in the YAML
 
@@ -104,6 +108,7 @@ We've pre-configured several options to optimize your Fusion snapshots compute e
 | `wave` | `True` | Enables Wave, required for Fusion in containerized workloads |
 | `fusion-v2` | `True` | Enables Fusion V2 |
 | `fast-storage` | `True` | Enables fast instance storage with Fusion v2 for optimal performance |
+| `snapshots` | `True` | Enables automatic snapshot creation and restoration for spot instance interruptions |
 | `no-ebs-auto-scale` | `True` | Disables EBS auto-expandable disks (incompatible with Fusion V2) |
 | `provisioning-model` | `"SPOT"` | Selects cost-effective spot pricing model |
 | `instance-types` | `"c6id.4xlarge,c6id.8xlarge,`<br>`r6id.2xlarge,m6id.4xlarge,`<br>`c6id.12xlarge,r6id.4xlarge,`<br>`m6id.8xlarge"` | Selects instance types with a small enough memory footprint and fast enough network to snapshot the machine within the time limit imposed by AWS during a spot reclamation event. |

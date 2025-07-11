@@ -174,6 +174,4 @@ You may have to wait for the pipeline to begin executing and eventually complete
 
 Before proceeding to the final part of this tutorial, ensure that the pipeline completes successfully at least once on both compute environments. Any failures may indicate infrastructure issues that should be addressed before attempting to run the pipeline on real-world datasets. For troubleshooting assistance, refer to the options in the [Support](../01_setup_environment/installation.md#support) section.
 
-After confirming successful runs, you can move on to the next section, where we will pull run metrics from the Seqera Platform. This will allow you to compare the performance of your custom workflow across the Fusion on-demand and Fusion snapshots compute environments.
-
-When you are ready to generate these performance reports, please reach out to your Seqera team for further guidance.
+After confirming successful runs, you can move on to the next section, [04_generate_report](./04_generate_report.md) where you will pull run metrics from the Seqera Platform. This will allow you to compare the performance of your custom workflow across the Fusion on-demand and Fusion snapshots compute environments.

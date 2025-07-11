@@ -15,13 +15,16 @@ These customizations ensure the benchmarks accurately reflect your infrastructur
 
 ## Overview
 
-This tutorial has been split up into 5 main components that you will need to complete in order:
+This tutorial has been split up into 6 main components that you will need to complete in order:
 
 1. [Introduction to using Seqerakit and setting up your environment](01_setup_environment/README.md)
 2. [Setup compute environments](02_setup_compute/README.md)
 3. [Setup pipelines for benchmarking](03_setup_pipelines/README.md)
 4. [Run benchmarks](04_run_benchmarks/README.md)
 5. [Generate benchmarking reports](05_generate_report/README.md) 
+6. [Fusion Snapshot benchmarking](./06_fusion_snapshots/README.md) (Optional)
+
+**Note:** The Fusion Snapshot benchmarking is an optional advanced feature. Contact your Seqera team if you are interested in testing Fusion Snapshots.
 
 
 ## Preparation
@@ -35,7 +38,7 @@ Before starting this tutorial, ensure you have the following prerequisites in pl
 
 2. Software dependencies installed:
    - [`seqerakit >=0.5.2`](https://github.com/seqeralabs/seqera-kit#installation)
-   - [Seqera Platform CLI (`>=0.9.0`)](https://github.com/seqeralabs/tower-cli#1-installation)
+   - [Seqera Platform CLI (`>=0.13.0`)](https://github.com/seqeralabs/tower-cli#1-installation)
    - [Python (`>=3.8`)](https://www.python.org/downloads/)
    - [PyYAML](https://pypi.org/project/PyYAML/)
    
