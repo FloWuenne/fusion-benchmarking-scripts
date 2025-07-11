@@ -16,7 +16,7 @@ You will need access to the following within Seqera Platform:
 
 This tutorial requires [`seqerakit >=0.4.3`](https://github.com/seqeralabs/seqera-kit#installation) as well as the following dependencies:
 
-1. [Seqera Platform CLI (`>=0.9.0`)](https://github.com/seqeralabs/tower-cli#1-installation)
+1. [Seqera Platform CLI (`>=0.13.0`)](https://github.com/seqeralabs/tower-cli#1-installation)
 
 2. [Python (`>=3.8`)](https://www.python.org/downloads/)
 
