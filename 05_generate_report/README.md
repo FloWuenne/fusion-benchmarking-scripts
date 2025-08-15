@@ -59,9 +59,12 @@ The YAML configurations utilize environment variables defined in the `env.sh` fi
 Beside these environment variables, there are a few nextflow parameters that need to be configured based on your setup. Go directly in to `./pipelines/nextflow.config` and modify the following variables:
 
 1) If you are an enterprise customer, please change `seqera_api_endpoint` to your Seqera Platform deployment URL. The person who set up your Enterprise deployment will know this address.
+
 2) Set `benchmark_aws_cur_report` to the AWS CUR report containing the cost information for your runs. You can provide the direct S3 path to this file if your credentials in Seqera Platform have access to this file. Otherwise, please upload the parquet report to a S3 bucket accessible by the AWS credentials associated with your compute environment.
+
+> **Exception**: If you cannot use the resource labels we suggested, leave `benchmark_aws_cur_report` set to null and compile the report without task level costs. The cost comparison will be done at the pipeline level via your Cost Explorer access.
+
 > **Note**: If you are using a Seqera Platform Enterprise instance that is secured with a private CA SSL certificate not recognized by default Java certificate authorities, you will need to amend the params section in the [nf-aggregate.yml](../launch/nf-aggregate-launch.yml) file before running the above seqerakit command, to specify a custom cacerts store path through `--java_truststore_path` and optionally, a password with the `--java_truststore_password` pipeline parameters. This certificate will be used to achieve connectivity with your Seqera Platform instance through API and CLI.
-2) Set `benchmark_aws_cur_report` to the AWS CUR report containing your runs cost information. This can be the direct S3 link to this file if your credentials in Seqera Platform have access to this file, otherwise, please upload the parquet report to a bucket accesible by the AWS credentials associated with your compute environment.
 
 ### 4. Add the samplesheet to Seqera Platform
 To add the samplesheet to Seqera Platform, run the following command:

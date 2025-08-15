@@ -16,6 +16,7 @@
 - You have setup a Fusion V2 and plain S3 compute environment in the Seqera Platform in the [previous section](../02_setup_compute/README.md).
 - You have created an S3 bucket for saving the workflow outputs.
 - For effective use of resource labels, you have setup Split Cost Allocation tracking in your AWS account and activated the tags as mentioned in [this guide](../docs/assets/aws-split-cost-allocation-guide.md).
+  - **Exception**: In the event you cannot activate the resource labels we suggest here, but you can utilize existing resource labels, make sure you have set individual unique resource labels for both the plainS3 and Fusion at the compute environment level (See [02_setup_compute](../02_setup_compute/README.md#Appendix) for details)
 - If using private repositories, you have added your GitHub (or other VCS provider) credentials to the Seqera Platform workspace.
 - You have reviewed and updated the environment variables in [env.sh](../01_setup_environment/env.sh) to match your specific Platform setup.
 
