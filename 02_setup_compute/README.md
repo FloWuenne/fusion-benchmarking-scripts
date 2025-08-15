@@ -24,6 +24,23 @@ These YAML files provide best practice configurations for utilizing these two st
 - You have an S3 bucket for the Nextflow work directory.
 - You have reviewed and updated the environment variables in [env.sh](../01_setup_environment/env.sh) to match your specific AWS setup.
 
+### Using existing manual AWS queues in your compute environments
+
+#### Setting manual queues during CE creation with seqerakit
+
+In the event that you are not standing up your compute queues using Batch Forge but use a manual setup approach, you will need to modify your YAML configurations. You need to change `config-mode: forge` to `config-mode: manual` and add the following lines pointing to your specific queues to the YAML files.
+
+```
+head-queue: "myheadqueue-head"
+compute-queue: "mycomputequeue-work"
+```
+
+Please note that in the case of manual queues the resource labels will have to be attached to your queues already and setting them on the Seqera Platform during CE creation when using manual queues will not work. 
+
+#### Manually setting the launch template for Fusion
+
+If you are not using Batch Forge to set up your queues, you will also have to manually set the launch template for your instances in your fusion queues. To do this, add the launch template we provide [Fusion launch template](./fusion_launch_template.txt) to your AWS batch account, then clone your existing AWS compute environment and during the Instance configuration step, choose the fusion launch template you created.
+
 ### YAML format description
 
 #### 1. Environment Variables in the YAML
