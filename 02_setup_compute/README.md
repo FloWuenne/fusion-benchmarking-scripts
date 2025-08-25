@@ -86,13 +86,7 @@ compute-envs:
     overwrite: False
 ```
 
-You should note it is very similar to the Fusion V2 compute environment, but with the following differences:
-
-- `provisioning-model` is set to `SPOT` to enable the use of spot instances.
-- `snapshots` is set to True to allow Fusion to automatically restore a job if interrupted by spot reclamation
-- `instance-types` are set to a very restrictive set of types that have sufficient memory and bandwidth to snapshot the machine within the time limit imposed by AWS during a spot reclamation event.
-
-Note: When setting `snapshots: True`, Fusion, Wave and fast-instance storage will be enabled by default for the CE. We have set these to `true` here for documentation purposes and consistency.
+Note: When setting `snapshots: True`, Fusion, Wave and fast-instance storage are required. We have set these to `true` here for documentation purposes and consistency.
 
 #### Pre-configured Options in the YAML
 
