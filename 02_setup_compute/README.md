@@ -109,7 +109,7 @@ We've pre-configured several options to optimize your Fusion snapshots compute e
 | `instance-types` | `"c6id.4xlarge,c6id.8xlarge,`<br>`r6id.2xlarge,m6id.4xlarge,`<br>`c6id.12xlarge,r6id.4xlarge,`<br>`m6id.8xlarge"` | Selects instance types with small memory and fast network to snapshot within AWS's time limit during spot reclamation. |
 | `max-cpus` | `1000` | Sets maximum number of CPUs for this compute environment |
 
-These options ensure your Fusion V2 compute environment is optimized for compatibility with the snapshot feature.
+These options ensure your Fusion V2 compute environment is optimized.
 
 #### 3. Plain S3 Compute Environment
 
