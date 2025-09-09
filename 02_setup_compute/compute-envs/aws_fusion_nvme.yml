@@ -9,6 +9,7 @@ compute-envs:
     wave: True
     fusion-v2: True
     fast-storage: True
+    snapshots: True
     no-ebs-auto-scale: True
     provisioning-model: "SPOT"
     instance-types: "c6id,m6id,r6id"

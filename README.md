@@ -22,10 +22,6 @@ This tutorial has been split up into 6 main components that you will need to com
 3. [Setup pipelines for benchmarking](03_setup_pipelines/README.md)
 4. [Run benchmarks](04_run_benchmarks/README.md)
 5. [Generate benchmarking reports](05_generate_report/README.md) 
-6. [Fusion Snapshot benchmarking](./06_fusion_snapshots/README.md) (Optional)
-
-**Note:** The Fusion Snapshot benchmarking is an optional advanced feature. Contact your Seqera team if you are interested in testing Fusion Snapshots.
-
 
 ## Preparation
 

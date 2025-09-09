@@ -2,7 +2,7 @@
 
 This directory contains YAML configuration files for the creation of two compute environments:
 
-- `aws_fusion_nvme.yml`: This compute environment is designed to run on Amazon Web Services (AWS) Batch and uses Fusion V2 with the 6th generation intel instance type with NVMe storage.
+- `aws_fusion_nvme.yml`: This compute environment is designed to run on Amazon Web Services (AWS) Batch and uses Fusion V2 on SPOT instances with the 6th generation intel instance type with NVMe storage and the Fusion snapshot feature activated. Fusion snapshots is a new feature in Fusion that allows you to snapshot and restore your machine when a spot interruption occurs.
 - `aws_plain_s3.yml`: This compute environment is designed to run on Amazon Web Services (AWS) Batch and uses the plain AWS Batch with S3 storage.
 
 These YAML files provide best practice configurations for utilizing these two storage types in AWS Batch compute environments. The Fusion V2 configuration is tailored for high-performance workloads leveraging NVMe storage, while the plain S3 configuration offers a standard setup for comparison and workflows that don't require the advanced features of Fusion V2.
@@ -24,6 +24,23 @@ These YAML files provide best practice configurations for utilizing these two st
 - You have an S3 bucket for the Nextflow work directory.
 - You have reviewed and updated the environment variables in [env.sh](../01_setup_environment/env.sh) to match your specific AWS setup.
 
+### Using existing manual AWS queues in your compute environments
+
+#### Setting manual queues during CE creation with seqerakit
+
+In the event that you are not standing up your compute queues using Batch Forge but use a manual setup approach, you will need to modify your YAML configurations. You need to change `config-mode: forge` to `config-mode: manual` and add the following lines pointing to your specific queues to the YAML files.
+
+```
+head-queue: "myheadqueue-head"
+compute-queue: "mycomputequeue-work"
+```
+
+Please note that in the case of manual queues the resource labels will have to be attached to your queues already and setting them on the Seqera Platform during CE creation when using manual queues will not work. 
+
+#### Manually setting the launch template for Fusion
+
+If you are not using Batch Forge to set up your queues, you will also have to manually set the launch template for your instances in your fusion queues. To do this, add the launch template we provide [Fusion launch template](./fusion_launch_template.txt) to your AWS batch account, then clone your existing AWS compute environment and during the Instance configuration step, choose the fusion launch template you created.
+
 ### YAML format description
 
 #### 1. Environment Variables in the YAML
@@ -44,13 +61,13 @@ Using these variables allows easy customization of the compute environment confi
 
 #### 2. Fusion V2 Compute Environment
 
-If we inspect the contents of [`aws_fusion_nvme.yml`](./compute-envs/aws_fusion_nvme.yml) as an example, we can see the overall structure is as follows:
+Fusion snapshots is a new feature in Fusion that allows you to snapshot and restore your machine when a spot interruption occurs. If we inspect the contents of [`./compute-envs/aws_fusion_snapshots.yml`](./compute-envs/aws_fusion_snapshots.yml) as an example, we can see the overall structure is as follows:
 
-```yaml
+```YAML
 compute-envs:
   - type: aws-batch
     config-mode: forge
-    name: "$COMPUTE_ENV_PREFIX_fusion_nvme"
+    name: "${COMPUTE_ENV_PREFIX}_fusion_snapshots"
     workspace: "$ORGANIZATION_NAME/$WORKSPACE_NAME"
     credentials: "$AWS_CREDENTIALS"
     region: "$AWS_REGION"
@@ -58,39 +75,37 @@ compute-envs:
     wave: True
     fusion-v2: True
     fast-storage: True
+    snapshots: True
     no-ebs-auto-scale: True
     provisioning-model: "SPOT"
-    instance-types: "c6id,m6id,r6id"
+    instance-types: "c6id.4xlarge,c6id.8xlarge,r6id.2xlarge,m6id.4xlarge,c6id.12xlarge,r6id.4xlarge,m6id.8xlarge"
     max-cpus: 1000
     allow-buckets: "$AWS_COMPUTE_ENV_ALLOWED_BUCKETS"
     labels: storage=fusionv2,project=benchmarking"
     wait: "AVAILABLE"
     overwrite: False
 ```
-<details>
-<summary>Click to expand: YAML format explanation</summary>
 
-The top-level block `compute-envs` mirrors the `tw compute-envs` command. The `type` and `config-mode` options are seqerakit specific. The nested options in the YAML correspond to options available for the Seqera Platform CLI command. For example, running `tw compute-envs add aws-batch forge --help` shows options like `--name`, `--workspace`, `--credentials`, etc., which are provided to the `tw compute-envs` command via this YAML definition.
-
-</details>
+Note: When setting `snapshots: True`, Fusion, Wave and fast-instance storage are required. We have set these to `true` here for documentation purposes and consistency.
 
 #### Pre-configured Options in the YAML
 
-We've pre-configured several options to optimize your Fusion V2 compute environment:
+We've pre-configured several options to optimize your Fusion snapshots compute environment:
 
 | Option | Value | Purpose |
 |--------|-------|---------|
 | `wave` | `True` | Enables Wave, required for Fusion in containerized workloads |
 | `fusion-v2` | `True` | Enables Fusion V2 |
 | `fast-storage` | `True` | Enables fast instance storage with Fusion v2 for optimal performance |
+| `snapshots` | `True` | Enables automatic snapshot creation and restoration for spot instance interruptions |
 | `no-ebs-auto-scale` | `True` | Disables EBS auto-expandable disks (incompatible with Fusion V2) |
 | `provisioning-model` | `"SPOT"` | Selects cost-effective spot pricing model |
-| `instance-types` | `"c6id,m6id,r6id"` | Selects 6th generation Intel instance types with high-speed local storage |
+| `instance-types` | `"c6id.4xlarge,c6id.8xlarge,`<br>`r6id.2xlarge,m6id.4xlarge,`<br>`c6id.12xlarge,r6id.4xlarge,`<br>`m6id.8xlarge"` | Selects instance types with small memory and fast network to snapshot within AWS's time limit during spot reclamation. |
 | `max-cpus` | `1000` | Sets maximum number of CPUs for this compute environment |
 
-These options ensure your Fusion V2 compute environment is optimized for performance and cost-effectiveness.
+These options ensure your Fusion V2 compute environment is optimized.
 
-#### 2. Plain S3 Compute Environment
+#### 3. Plain S3 Compute Environment
 
 Similarly, if we inspect the contents of [`aws_plain_s3.yml`](./compute-envs/aws_plain_s3.yml) as an example, we can see the overall structure is as follows:
 
@@ -169,7 +184,7 @@ We will additionally use process-level labels for further granularity, this is d
 To add labels to your compute environment:
 
 1. In the YAML file, locate the `labels` field. 
-2. Add your desired labels as a comma-separated list of key-value pairs. We have pre-populated this with the `storage=fusion|plains3` and `project=benchmarking` labels for better organization.
+2. Add your desired labels as a comma-separated list of key-value pairs. We have pre-populated this with the `storage=fusion|plains3` and `project=benchmarking` labels for better organization. If you have a pre-existing label, you can use this here as well. For example, if you have previously used the `project` label and it is activated in AWS, you could use `project=fusion_poc_plainS3CE` and `project=fusion_poc_fusionCE` to distinguish the two compute environments.
 
 ### Networking
 If your compute environments require custom networking setup using a custom VPC, subnets, and security groups, these can be added as additional YAML fields.

@@ -1,0 +1,83 @@
+    MIME-Version: 1.0
+    Content-Type: multipart/mixed; boundary="//"
+
+    --//
+    Content-Type: text/cloud-config; charset="us-ascii"
+
+    #cloud-config
+    write_files:
+      - path: /root/tower-forge.sh
+        permissions: 0744
+        owner: root
+        content: |
+          #!/usr/bin/env bash
+          ## Stop the ECS agent if running
+          systemctl stop ecs
+          exec > >(tee /var/log/tower-forge.log|logger -t BatchForge -s 2>/dev/console) 2>&1
+          ##
+          yum install -q -y jq sed wget unzip nvme-cli lvm2
+          curl -s https://s3.amazonaws.com/amazoncloudwatch-agent/amazon_linux/amd64/latest/amazon-cloudwatch-agent.rpm -o amazon-cloudwatch-agent.rpm
+          rpm -U ./amazon-cloudwatch-agent.rpm
+          rm -f ./amazon-cloudwatch-agent.rpm
+          curl -s https://nf-xpack.seqera.io/amazon-cloudwatch-agent/config-v0.4.json \
+            | sed 's/$FORGE_ID/ambry-example/g' \
+            > /opt/aws/amazon-cloudwatch-agent/bin/config.json
+          /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+            -a fetch-config \
+            -m ec2 \
+            -s \
+            -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json
+          mkdir -p /scratch/fusion
+          NVME_DISKS=($(nvme list | grep 'Amazon EC2 NVMe Instance Storage' | awk '{ print $1 }'))
+          NUM_DISKS=$${#NVME_DISKS[@]}
+          if (( NUM_DISKS > 0 )); then
+            if (( NUM_DISKS == 1 )); then
+              mkfs -t xfs $${NVME_DISKS[0]}
+              mount $${NVME_DISKS[0]} /scratch/fusion
+            else
+              pvcreate $${NVME_DISKS[@]}
+              vgcreate scratch_fusion $${NVME_DISKS[@]}
+              lvcreate -l 100%FREE -n volume scratch_fusion
+              mkfs -t xfs /dev/mapper/scratch_fusion-volume
+              mount /dev/mapper/scratch_fusion-volume /scratch/fusion
+            fi
+          fi
+          chmod a+w /scratch/fusion
+          mkdir -p /etc/ecs
+          echo ECS_IMAGE_PULL_BEHAVIOR=once >> /etc/ecs/ecs.config
+          echo ECS_ENABLE_AWSLOGS_EXECUTIONROLE_OVERRIDE=true >> /etc/ecs/ecs.config
+          echo ECS_ENABLE_SPOT_INSTANCE_DRAINING=true >> /etc/ecs/ecs.config
+          echo ECS_CONTAINER_CREATE_TIMEOUT=10m >> /etc/ecs/ecs.config
+          echo ECS_CONTAINER_START_TIMEOUT=10m >> /etc/ecs/ecs.config
+          echo ECS_CONTAINER_STOP_TIMEOUT=10m >> /etc/ecs/ecs.config
+          echo ECS_MANIFEST_PULL_TIMEOUT=10m >> /etc/ecs/ecs.config
+          systemctl stop docker
+          ## install AWS cli 2
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-$(arch).zip" -o "awscliv2.zip"
+          unzip -q awscliv2.zip
+          sudo ./aws/install
+          TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+          INSTANCEID=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/instance-id)
+          X_ZONE=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" -fs http://169.254.169.254/latest/meta-data/placement/availability-zone)
+          AWS_DEFAULT_REGION="`echo \"$X_ZONE\" | sed 's/[a-z]$//'`"
+          VOLUMEID=$(aws --region $AWS_DEFAULT_REGION ec2 describe-instances --instance-id $INSTANCEID | jq -r .Reservations[0].Instances[0].BlockDeviceMappings[0].Ebs.VolumeId)
+          aws --region $AWS_DEFAULT_REGION ec2 modify-volume --volume-id $VOLUMEID --size 100 --volume-type gp3 --throughput 325
+          i=1; until [ "$(aws --region $AWS_DEFAULT_REGION ec2 describe-volumes-modifications --volume-id $VOLUMEID --filters Name=modification-state,Values="optimizing","completed" | jq '.VolumesModifications | length')" == "1" ] || [ $i -eq 256 ]; do
+            sleep $i
+            i=$(( i * 2 ))
+          done
+          if [ $i -eq 256 ]; then
+            echo "ERROR expanding EBS boot disk size"
+            aws --region $AWS_DEFAULT_REGION ec2 describe-volumes-modifications --volume-id $VOLUMEID
+          fi
+          growpart /dev/xvda 1
+          xfs_growfs -d /
+          systemctl start docker
+          systemctl enable --now --no-block ecs
+          echo "1258291200" > /proc/sys/vm/dirty_bytes
+          echo "629145600" > /proc/sys/vm/dirty_background_bytes
+
+    runcmd:
+      - bash /root/tower-forge.sh
+
+    --//--
