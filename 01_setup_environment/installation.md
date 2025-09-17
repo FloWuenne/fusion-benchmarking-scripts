@@ -8,6 +8,7 @@ You will need access to the following within Seqera Platform:
 - Minimum of [Maintain](https://docs.seqera.io/platform/23.3.0/orgs-and-teams/workspace-management#participant-roles) user permissions within the Workspace
 - [Compute Environment](https://docs.seqera.io/platform/23.3.0/compute-envs/overview) that has already been pre-configured
 - [Access token](https://docs.seqera.io/platform/23.3.0/api/overview#authentication) which is your personal authorization token for the Seqera Platform CLI. This can be created in the user menu under **Your tokens**.
+- Access to Wave for injection of the Fusion binaries into your docker images.
 
 
 ## Software dependencies

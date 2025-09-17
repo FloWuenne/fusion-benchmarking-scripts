@@ -39,7 +39,7 @@ Please note that in the case of manual queues the resource labels will have to b
 
 #### Manually setting the launch template for Fusion
 
-If you are not using Batch Forge to set up your queues, you will also have to manually set the launch template for your instances in your fusion queues. To do this, add the launch template we provide [Fusion launch template](./fusion_launch_template.txt) to your AWS batch account, then clone your existing AWS compute environment and during the Instance configuration step, choose the fusion launch template you created.
+If you are not using Batch Forge to set up your queues, you will also have to manually set the launch template for your instances in your fusion queues. To do this, add the launch template we provide ([Fusion launch template](./fusion_launch_template.txt)) to your AWS batch account, then clone or edit your existing AWS compute environment and during the Instance configuration step, choose the fusion launch template you created.
 
 ### YAML format description
 

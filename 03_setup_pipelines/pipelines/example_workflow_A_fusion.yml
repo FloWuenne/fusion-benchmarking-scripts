@@ -6,7 +6,7 @@ pipelines:
     compute-env: "$COMPUTE_ENV_PREFIX_fusion_nvme"    # Required, selects for Fusion CE created in earlier step
     profile: "$PIPELINE_PROFILE"                      # Optional, specify a test profile
     revision: "your_pipeline_revision"                # Required, specify a pipeline revision
-    config: "./nextflow.config"                       # Required, specify a config file with process resource labels for costs
+    config: "./fusion.config"                       # Required, specify a config file with process resource labels for costs
     # pre-run: "./pre-run.sh"                           # Optional, specify a pre-run script                
     # params-file: "./params.yaml"                      # Optional, specify a pipeline params file
     params:                                           # Optional, specify params inline
