@@ -19,4 +19,4 @@ If `TOWER_ENABLE_WAVE` is set to `false` in your deployment, follow the [Wave co
 
 **Note:** You must configure registry credentials in Platform to use Wave for image augmentation, as detailed in the Wave documentation linked above.
 
-Once you have Wave enabled on your platform end, you can either activate it during CE creation or via Nextflow configuration. We provide both option in this walkthrough. In [02_setup_compute](../02_setup_compute/compute-envs/aws_fusion_nvme.yml) we provide a flag (`wave: True`) for turning on Wave when creating the CE. And when adding the pipeline to the launchpad, we also provide [Nextflow configuration](../03_setup_pipelines/pipelines/fusion.config) to enable Wave that way.
+Once Wave is enabled, you can activate it either during compute environment (CE) creation or through Nextflow configuration. In [02_setup_compute](../02_setup_compute/compute-envs/aws_fusion_nvme.yml), set the `wave: True` flag when creating the CE. Alternatively, when adding the pipeline to Launchpad, use the provided [Nextflow configuration](../03_setup_pipelines/pipelines/fusion.config) file to enable Wave.
