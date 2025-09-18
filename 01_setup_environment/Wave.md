@@ -10,7 +10,7 @@ Wave offers a flexible approach to container image management. It allows you to 
 # Accessing Wave with Seqera Platform
 
 ## Seqera Platform Cloud ([cloud.seqera.io](cloud.seqera.io))
-If you are using Seqera Platform Cloud (cloud.seqera.io), Wave is available to you by default, you can simply activate it by toggling it on during compute environment creation or via Nextflow configuration.
+If you are using Seqera Platform Cloud (cloud.seqera.io), Wave is available to you by default, you can simply activate it by toggling it on during compute environment creation or via Nextflow configuration using `wave.enabled = true`.
 
 ## Seqera Platform Enterprise
 If you are using Seqera Platform Enterprise and are not using self-hosted Wave, verify that `TOWER_ENABLE_WAVE` is set to `true` and your `WAVE_SERVER_URL` is configured to `wave.seqera.io` in your Platform configuration. 
